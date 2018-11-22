@@ -13,31 +13,6 @@ Vue.config.productionTip = false
 const storage = new LocalStorageUtils();
 window.storage = storage;
 
-router.beforeEach(function (to, from, next) {
-  let meta = to.meta.auth;
-  let name = to.name;
-  let token = storage.get('token');
-  if (name == 'login') {
-    next()
-    return
-  }
-  if (meta) {
-    if (token == null) {
-      next({name:'login'})
-      return
-    }
-     next()
-  }else {
-    next()
-  }
-})
-router.afterEach(function (to) {
-  // store.commit('updateLoadingStatus', {isLoading: false})
-})
-
-
-
-
 new Vue({
   el: '#app',
   router,

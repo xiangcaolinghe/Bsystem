@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-index">
 
     </div>
 </template>
@@ -14,5 +14,6 @@
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+
 </style>
