@@ -20,12 +20,12 @@
               <div class="slider">
                 <ul>
                   <li>
-                    <router-link :to="{name:'platform.flowpath'}" :class="{active:$route.meta.manager == true}" class="left-cell"><i class="icon iconfont icon-yonghuguanli"></i>用户管理</router-link>
+                    <router-link :to="{name:'platform.user'}" class="left-cell"><i class="icon iconfont icon-yonghuguanli"></i>用户管理</router-link>
                   </li>
-                  <li><router-link :to="{name:'platform.flowimport'}" :class="{active:$route.meta.manager == true}" class="left-cell"><i class="icon iconfont icon-guanli"></i>机构管理</router-link></li>
-                  <li><router-link :to="{name:'platform.flowmanager'}" :class="{active:$route.meta.manager == true}" class="left-cell"><i class="icon iconfont icon-liucheng"></i>菜单管理</router-link></li>
-                  <li><router-link :to="{name:'platform.flowstatistics'}" :class="{active:$route.meta.manager == true}" class="left-cell"><i class="icon iconfont icon-huiyi"></i>角色管理</router-link></li>
-                  <li><router-link :to="{name:'platform.flowimport'}" :class="{active:$route.meta.manager == true}" class="left-cell"><i class="icon iconfont icon-youjiantou"></i>日志查询</router-link></li>
+                  <li><router-link :to="{name:'platform.org'}" class="left-cell"><i class="icon iconfont icon-guanli"></i>机构管理</router-link></li>
+                  <li><router-link :to="{name:'platform.menu'}" class="left-cell"><i class="icon iconfont icon-liucheng"></i>菜单管理</router-link></li>
+                  <li><router-link :to="{name:'platform.role'}" class="left-cell"><i class="icon iconfont icon-huiyi"></i>角色管理</router-link></li>
+                  <li><router-link :to="{name:'platform.log'}" class="left-cell"><i class="icon iconfont icon-youjiantou"></i>日志查询</router-link></li>
                 </ul>
               </div>
             </div>
