@@ -168,7 +168,7 @@
     .view {
       float: left;
       width: 84%;
-      padding: 0 5%;
+      padding: 0 5% 0 0;
       box-sizing: border-box;
       &.views {
         width:100%;
