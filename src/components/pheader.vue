@@ -20,12 +20,28 @@
               <div class="slider">
                 <ul>
                   <li>
-                    <router-link :to="{name:'platform.user'}" class="left-cell"><i class="icon iconfont icon-yonghuguanli"></i>用户管理</router-link>
+                    <router-link
+                            :to="{name:'platform.user'}"
+                            class="left-cell"
+                            :class="{active: $route.name == 'platform.user'}">
+                      <i class="icon iconfont icon-yonghuguanli"></i>用户管理</router-link>
                   </li>
-                  <li><router-link :to="{name:'platform.org'}" class="left-cell"><i class="icon iconfont icon-guanli"></i>机构管理</router-link></li>
-                  <li><router-link :to="{name:'platform.menu'}" class="left-cell"><i class="icon iconfont icon-liucheng"></i>菜单管理</router-link></li>
-                  <li><router-link :to="{name:'platform.role'}" class="left-cell"><i class="icon iconfont icon-huiyi"></i>角色管理</router-link></li>
-                  <li><router-link :to="{name:'platform.log'}" class="left-cell"><i class="icon iconfont icon-youjiantou"></i>日志查询</router-link></li>
+                  <li><router-link
+                          :to="{name:'platform.org'}"
+                          :class="{active: $route.name == 'platform.org'}"
+                          class="left-cell"><i class="icon iconfont icon-guanli"></i>机构管理</router-link></li>
+                  <li><router-link
+                          :to="{name:'platform.menu'}"
+                          :class="{active: $route.name == 'platform.menu'}"
+                          class="left-cell"><i class="icon iconfont icon-liucheng"></i>菜单管理</router-link></li>
+                  <li><router-link
+                          :to="{name:'platform.role'}"
+                          :class="{active: $route.name == 'platform.role'}"
+                          class="left-cell"><i class="icon iconfont icon-huiyi"></i>角色管理</router-link></li>
+                  <li><router-link
+                          :to="{name:'platform.log'}"
+                          :class="{active: $route.name == 'platform.log'}"
+                          class="left-cell"><i class="icon iconfont icon-youjiantou"></i>日志查询</router-link></li>
                 </ul>
               </div>
             </div>
@@ -84,6 +100,7 @@
         font-size: 22px;
       }
       .welcome{
+        cursor: pointer;
         float: right;
         color: #d5e0ee;
         .iconfont {
@@ -143,7 +160,7 @@
             line-height: 85px;
             .left-cell,.left-cell:hover{
               display: block;
-              text-decoration:none;//去掉下划线
+              text-decoration:none;
               color: #a3afbc;
             }
             .left-cell:hover{
@@ -156,6 +173,10 @@
               .icon {
                 margin-right: 15px;
               }
+              &.active {
+                 color: #003b64 !important;
+                 background-color: white !important;
+               }
             }
             a:hover{
               color: #003b64 !important;
@@ -168,7 +189,7 @@
     .view {
       float: left;
       width: 84%;
-      padding: 0 5% 0 0;
+      padding: 0 0 0 0;
       box-sizing: border-box;
       &.views {
         width:100%;
