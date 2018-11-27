@@ -1,7 +1,7 @@
 {
   "data":[
     {
-      "title": "web",
+      "title": "web应用的图标",
       "data":[
         {
           "name":"fa-adjust",
@@ -11,17 +11,17 @@
           "name":"fa-asterisk",
           "class":"fa-asterisk"
         },{
-          "name":"fa-ban-circle",
-          "class":"fa-ban-circle"
+          "name":"fa-ban",
+          "class":"fa-ban"
         },{
           "name":"fa-bar-chart",
-          "class":"fa-bar-char"
+          "class":"fa-bar-chart"
         },{
           "name":"fa-barcode",
           "class":"fa-barcode"
         },{
-          "name":"fa-beaker",
-          "class":"fa-beaker"
+          "name":"fa-hourglass-3 ",
+          "class":"fa-hourglass-3 "
         },{
           "name":"fa-beer",
           "class":"fa-beer"
@@ -29,8 +29,8 @@
           "name":"fa-bell",
           "class":"fa-bell"
         },{
-          "name":"fa-bell-alt",
-          "class":"fa-bell-alt"
+          "name":"fa-bell-o",
+          "class":"fa-bell-o"
         },{
           "name":"fa-bolt",
           "class":"fa-bolt"
@@ -41,8 +41,8 @@
           "name":"fa-bookmark",
           "class":"fa-bookmark"
         },{
-          "name":"fa-bookmark-empty",
-          "class":"fa-bookmark-empty"
+          "name":"fa-bookmark-o",
+          "class":"fa-bookmark-o"
         },{
           "name":"fa-briefcase",
           "class":"fa-briefcase"
@@ -65,14 +65,14 @@
           "name":"fa-check",
           "class":"fa-check"
         },{
-          "name":"fa-check-empty",
-          "class":"fa-check-empty"
+          "name":"fa-check-circle-o",
+          "class":"fa-check-circle-o"
         },{
           "name":"fa-circle",
           "class":"fa-circle"
         },{
-          "name":"fa-circle-blank",
-          "class":"fa-circle-blank"
+          "name":"fa-circle-o",
+          "class":"fa-circle-o"
         },{
           "name":"fa-cloud",
           "class":"fa-cloud"
@@ -95,14 +95,14 @@
           "name":"fa-comment",
           "class":"fa-comment"
         },{
-          "name":"fa-comment-alt",
-          "class":"fa-comment-alt"
+          "name":"fa-comment-o",
+          "class":"fa-comment-o"
         },{
           "name":"fa-comments",
           "class":"fa-comments"
         },{
-          "name":"fa-comments-alt",
-          "class":"fa-comments-alt"
+          "name":"fa-comments-o",
+          "class":"fa-comments-o"
         },{
           "name":"fa-credit-card",
           "class":"fa-credit-card"
@@ -116,8 +116,8 @@
           "name":"fa-download",
           "class":"fa-download"
         },{
-          "name":"fa-download-alt",
-          "class":"fa-download-alt"
+          "name":"fa-cloud-download",
+          "class":"fa-cloud-download"
         },{
           "name":"fa-edit",
           "class":"fa-edit"
@@ -125,26 +125,26 @@
           "name":"fa-envelope",
           "class":"fa-envelope"
         },{
-          "name":"fa-envelope-alt",
-          "class":"fa-envelope-alt"
+          "name":"fa-envelope-o",
+          "class":"fa-envelope-o"
         },{
           "name":"fa-exchange",
           "class":"fa-exchange"
         },{
-          "name":"fa-exclamation-sign",
-          "class":"fa-exclamation-sign"
+          "name":"fa-exclamation-circle",
+          "class":"fa-exclamation-circle"
         },{
           "name":"fa-external-link",
           "class":"fa-external-link"
         },{
-          "name":"fa-eye-close",
-          "class":"fa-eye-close"
+          "name":"fa-eye-slash",
+          "class":"fa-eye-slash"
         },{
-          "name":"fa-eye-open",
-          "class":"fa-eye-open"
+          "name":"fa-eye",
+          "class":"fa-eye"
         },{
-          "name":"fa-facetime-video",
-          "class":"fa-facetime-video"
+          "name":"fa-video-camera",
+          "class":"fa-video-camera"
         },{
           "name":"fa-fighter-jet",
           "class":"fa-fighter-jet"
@@ -161,20 +161,20 @@
           "name":"fa-flag",
           "class":"fa-flag"
         },{
-          "name":"fa-folder-close",
-          "class":"fa-folder-close"
+          "name":"fa-folder",
+          "class":"fa-folder"
         },{
           "name":"fa-folder-open",
           "class":"fa-folder-open"
         },{
-          "name":"fa-folder-close-alt",
-          "class":"fa-folder-close-alt"
+          "name":"fa-folder-o",
+          "class":"fa-folder-o"
         },{
-          "name":"fa-folder-open-alt",
-          "class":"fa-folder-open-alt"
+          "name":"fa-folder-open-o",
+          "class":"fa-folder-open-o"
         },{
-          "name":"fa-food",
-          "class":"fa-food"
+          "name":"fa-cutlery",
+          "class":"fa-cutlery"
         },{
           "name":"fa-gift",
           "class":"fa-gift"
@@ -188,8 +188,8 @@
           "name":"fa-group",
           "class":"fa-group"
         },{
-          "name":"fa-hdd",
-          "class":"fa-hdd"
+          "name":"fa-hdd-o",
+          "class":"fa-hdd-o"
         },{
           "name":"fa-headphones",
           "class":"fa-headphones"
@@ -197,8 +197,8 @@
           "name":"fa-heart",
           "class":"fa-heart"
         },{
-          "name":"fa-heart-empty",
-          "class":"fa-heart-empty"
+          "name":"fa-heart-o",
+          "class":"fa-heart-o"
         },{
           "name":"fa-home",
           "class":"fa-home"
@@ -206,8 +206,8 @@
           "name":"fa-inbox",
           "class":"fa-inbox"
         },{
-          "name":"fa-info-sign",
-          "class":"fa-info-sign"
+          "name":"fa-info-square",
+          "class":"fa-info-square"
         },{
           "name":"fa-key",
           "class":"fa-key"
@@ -221,11 +221,11 @@
           "name":"fa-legal",
           "class":"fa-legal"
         },{
-          "name":"fa-lemon",
-          "class":"fa-lemon"
+          "name":"fa-lemon-o",
+          "class":"fa-lemon-o"
         },{
-          "name":"fa-lightbulb",
-          "class":"fa-lightbulb"
+          "name":"fa-lightbulb-o",
+          "class":"fa-lightbulb-o"
         },{
           "name":"fa-lock",
           "class":"fa-lock"
@@ -245,8 +245,8 @@
           "name":"fa-minus",
           "class":"fa-minus"
         },{
-          "name":"fa-minus-sign",
-          "class":"fa-minus-sign"
+          "name":"fa-minus-square",
+          "class":"fa-minus-square"
         },{
           "name":"fa-mobile-phone",
           "class":"fa-mobile-phone"
@@ -254,29 +254,29 @@
           "name":"fa-money",
           "class":"fa-money"
         },{
-          "name":"fa-move",
-          "class":"fa-move"
+          "name":"fa-arrows",
+          "class":"fa-arrows"
         },{
           "name":"fa-music",
           "class":"fa-music"
         },{
-          "name":"fa-off",
-          "class":"fa-off"
+          "name":"fa-power-off",
+          "class":"fa-power-off"
         },{
-          "name":"fa-ok",
-          "class":"fa-ok"
+          "name":"fa-check",
+          "class":"fa-check"
         },{
-          "name":"fa-ok-circle",
-          "class":"fa-ok-circle"
+          "name":"fa-check-circle",
+          "class":"fa-check-circle"
         },{
-          "name":"fa-ok-sign",
-          "class":"fa-ok-sign"
+          "name":"fa-check-circle-o",
+          "class":"fa-check-circle-o"
         },{
           "name":"fa-pencil",
           "class":"fa-pencil"
         },{
-          "name":"fa-picture",
-          "class":"fa-picture"
+          "name":"fa-picture-o",
+          "class":"fa-picture-o"
         },{
           "name":"fa-plane",
           "class":"fa-plane"
@@ -284,21 +284,21 @@
           "name":"fa-plus",
           "class":"fa-plus"
         },{
-          "name":"fa-plus-sign",
-          "class":"fa-plus-sign"
+          "name":"fa-plus-square",
+          "class":"fa-plus-square"
         },
         {
           "name":"fa-print",
           "class":"fa-print"
         },{
-          "name":"fa-pushpin",
-          "class":"fa-pushpin"
+          "name":"fa-map-pin",
+          "class":"fa-map-pin"
         },{
           "name":"fa-qrcode",
           "class":"fa-qrcode"
         },{
-          "name":"fa-question-sign",
-          "class":"fa-question-sign"
+          "name":"fa-question",
+          "class":"fa-question"
         },{
           "name":"fa-quote-left",
           "class":"fa-quote-left"
@@ -315,11 +315,11 @@
           "name":"fa-remove",
           "class":"fa-remove"
         },{
-          "name":"fa-remove-circle",
-          "class":"fa-remove-circle"
+          "name":"fa-times-circle",
+          "class":"fa-times-circle"
         },{
-          "name":"fa-remove-sign",
-          "class":"fa-remove-sign"
+          "name":"fa-times-circle-o",
+          "class":"fa-times-circle-o"
         },{
           "name":"fa-reorder",
           "class":"fa-reorder"
@@ -327,11 +327,11 @@
           "name":"fa-reply",
           "class":"fa-reply"
         },{
-          "name":"fa-resize-horizontal",
-          "class":"fa-resize-horizontal"
+          "name":"fa-arrows-h",
+          "class":"fa-arrows-h"
         },{
-          "name":"fa-resize-vertical",
-          "class":"fa-resize-vertical"
+          "name":"fa-arrows-v",
+          "class":"fa-arrows-v"
         },{
           "name":"fa-retweet",
           "class":"fa-retweet"
@@ -342,8 +342,8 @@
           "name":"fa-rss",
           "class":"fa-rss"
         },{
-          "name":"fa-screenshot",
-          "class":"fa-screenshot"
+          "name":"fa-crosshairs",
+          "class":"fa-crosshairs"
         },{
           "name":"fa-search",
           "class":"fa-search"
@@ -354,215 +354,486 @@
           "name":"fa-share-alt",
           "class":"fa-share-alt"
         },{
-          "name":"fa-shooping-cart",
-          "class":"fa-shooping-cart"
+          "name":"fa-shopping-cart",
+          "class":"fa-shopping-cart"
         },{
           "name":"fa-signal",
           "class":"fa-signal"
         },{
-          "name":"fa-cloud-upload",
-          "class":"fa-cloud-upload"
+          "name":"fa-sign-in",
+          "class":"fa-sign-in"
         },{
-          "name":"fa-coffee",
-          "class":"fa-coffee"
+          "name":"fa-sign-out",
+          "class":"fa-sign-out"
         },{
-          "name":"fa-cog",
-          "class":"fa-cog"
+          "name":"fa-sitemap",
+          "class":"fa-sitemap"
         },{
-          "name":"fa-cogs",
-          "class":"fa-cogs"
+          "name":"fa-sort",
+          "class":"fa-sort"
         },{
-          "name":"fa-comment",
-          "class":"fa-comment"
+          "name":"fa-sort-down",
+          "class":"fa-sort-down"
         },{
-          "name":"fa-comment-alt",
-          "class":"fa-comment-alt"
+          "name":"fa-sort-up",
+          "class":"fa-sort-up"
         },{
-          "name":"fa-comments",
-          "class":"fa-comments"
+          "name":"fa-spinner",
+          "class":"fa-spinner"
         },{
-          "name":"fa-comments-alt",
-          "class":"fa-comments-alt"
+          "name":"fa-star",
+          "class":"fa-star"
         },{
-          "name":"fa-credit-card",
-          "class":"fa-credit-card"
+          "name":"fa-star-o",
+          "class":"fa-star-o"
         },{
-          "name":"fa-dashboard",
-          "class":"fa-dashboard"
+          "name":"fa-star-half",
+          "class":"fa-star-half"
         },{
-          "name":"fa-desktop",
-          "class":"fa-desktop"
+          "name":"fa-tablet",
+          "class":"fa-tablet"
         },{
-          "name":"fa-download",
-          "class":"fa-download"
+          "name":"fa-tag",
+          "class":"fa-tag"
         },{
-          "name":"fa-download-alt",
-          "class":"fa-download-alt"
+          "name":"fa-tags",
+          "class":"fa-tags"
         },{
-          "name":"fa-edit",
-          "class":"fa-edit"
+          "name":"fa-tasks",
+          "class":"fa-tasks"
+        },{
+          "name":"fa-thumbs-down",
+          "class":"fa-thumbs-down"
         },{
-          "name":"fa-envelope",
-          "class":"fa-envelope"
-        },{
-          "name":"fa-envelope-alt",
-          "class":"fa-envelope-alt"
-        },{
-          "name":"fa-exchange",
-          "class":"fa-exchange"
-        },{
-          "name":"fa-exclamation-sign",
-          "class":"fa-exclamation-sign"
-        },{
-          "name":"fa-external-link",
-          "class":"fa-external-link"
-        },{
-          "name":"fa-eye-close",
-          "class":"fa-eye-close"
-        },{
-          "name":"fa-eye-open",
-          "class":"fa-eye-open"
-        },{
-          "name":"fa-facetime-video",
-          "class":"fa-facetime-video"
-        },{
-          "name":"fa-fighter-jet",
-          "class":"fa-fighter-jet"
-        },{
-          "name":"fa-film",
-          "class":"fa-film"
-        },{
-          "name":"fa-filter",
-          "class":"fa-filter"
-        },{
-          "name":"fa-fire",
-          "class":"fa-fire"
-        },{
-          "name":"fa-flag",
-          "class":"fa-flag"
-        },{
-          "name":"fa-folder-close",
-          "class":"fa-folder-close"
-        },{
-          "name":"fa-folder-open",
-          "class":"fa-folder-open"
-        },{
-          "name":"fa-folder-close-alt",
-          "class":"fa-folder-close-alt"
-        },{
-          "name":"fa-folder-open-alt",
-          "class":"fa-folder-open-alt"
-        },{
-          "name":"fa-food",
-          "class":"fa-food"
-        },{
-          "name":"fa-gift",
-          "class":"fa-gift"
-        },{
-          "name":"fa-glass",
-          "class":"fa-glass"
-        },{
-          "name":"fa-globe",
-          "class":"fa-globe"
-        },{
-          "name":"fa-group",
-          "class":"fa-group"
-        },{
-          "name":"fa-hdd",
-          "class":"fa-hdd"
-        },{
-          "name":"fa-headphones",
-          "class":"fa-headphones"
-        },{
-          "name":"fa-heart",
-          "class":"fa-heart"
-        },{
-          "name":"fa-heart-empty",
-          "class":"fa-heart-empty"
-        },{
-          "name":"fa-home",
-          "class":"fa-home"
-        },{
-          "name":"fa-inbox",
-          "class":"fa-inbox"
-        },{
-          "name":"fa-info-sign",
-          "class":"fa-info-sign"
-        },{
-          "name":"fa-key",
-          "class":"fa-key"
-        },{
-          "name":"fa-leaf",
-          "class":"fa-leaf"
-        },{
-          "name":"fa-laptop",
-          "class":"fa-laptop"
-        },{
-          "name":"fa-legal",
-          "class":"fa-legal"
-        },{
-          "name":"fa-lemon",
-          "class":"fa-lemon"
-        },{
-          "name":"fa-lightbulb",
-          "class":"fa-lightbulb"
-        },{
-          "name":"fa-lock",
-          "class":"fa-lock"
-        },{
-          "name":"fa-unlock",
-          "class":"fa-unlock"
-        },{
-          "name":"fa-magic",
-          "class":"fa-magic"
-        },{
-          "name":"fa-magnet",
-          "class":"fa-magnet"
-        },{
-          "name":"fa-map-marker",
-          "class":"fa-map-marker"
-        },{
-          "name":"fa-minus",
-          "class":"fa-minus"
-        },{
-          "name":"fa-minus-sign",
-          "class":"fa-minus-sign"
-        },{
-          "name":"fa-mobile-phone",
-          "class":"fa-mobile-phone"
-        },{
-          "name":"fa-money",
-          "class":"fa-money"
-        },{
-          "name":"fa-move",
-          "class":"fa-move"
-        },{
-          "name":"fa-music",
-          "class":"fa-music"
-        },{
-          "name":"fa-off",
-          "class":"fa-off"
-        },{
-          "name":"fa-ok",
-          "class":"fa-ok"
-        },{
-          "name":"fa-ok-circle",
-          "class":"fa-ok-circle"
-        },{
-          "name":"fa-ok-sign",
-          "class":"fa-ok-sign"
-        },{
-          "name":"fa-pencil",
-          "class":"fa-pencil"
-        },{
-          "name":"fa-picture",
-          "class":"fa-picture"
-        },{
-          "name":"fa-plane",
-          "class":"fa-plane"
-        },{
-          "name":"fa-plus",
-          "class":"fa-plus"
+          "name":"fa-thumbs-up",
+          "class":"fa-thumbs-up"
+        },{
+          "name":"fa-clock-o",
+          "class":"fa-clock-o"
+        },{
+          "name":"fa-tint",
+          "class":"fa-tint"
+        },{
+          "name":"fa-trash",
+          "class":"fa-trash"
+        },{
+          "name":"fa-trophy",
+          "class":"fa-trophy"
+        },{
+          "name":"fa-truck",
+          "class":"fa-truck"
+        },{
+          "name":"fa-umbrella",
+          "class":"fa-umbrella"
+        },{
+          "name":"fa-upload",
+          "class":"fa-upload"
+        },{
+          "name":"fa-arrow-circle-o-up",
+          "class":"fa-arrow-circle-o-up"
+        },{
+          "name":"fa-user",
+          "class":"fa-user"
+        },{
+          "name":"fa-user-md",
+          "class":"fa-user-md"
+        },{
+          "name":"fa-volume-off",
+          "class":"fa-volume-off"
+        },{
+          "name":"fa-volume-down",
+          "class":"fa-volume-down"
+        },{
+          "name":"fa-volume-up",
+          "class":"fa-volume-up"
+        },{
+          "name":"fa-warning",
+          "class":"fa-warning"
+        },{
+          "name":"fa-wrench",
+          "class":"fa-wrench"
+        },{
+          "name":"fa-search-plus",
+          "class":"fa-search-plus"
+        },{
+          "name":"fa-search-minus",
+          "class":"fa-search-minus"
+        }
+      ]
+    },{
+      "title": "文本编辑器图标",
+      "data":[
+        {
+          "name":"fa-file",
+          "class":"fa-file"
+        },
+        {
+          "name":"fa-file-o",
+          "class":"fa-file-o"
+        },{
+          "name":"fa-cut",
+          "class":"fa-cut"
+        },
+        {
+          "name":"fa-copy",
+          "class":"fa-copy"
+        },
+        {
+          "name":"fa-paste",
+          "class":"fa-paste"
+        },{
+          "name":"fa-save",
+          "class":"fa-save"
+        },
+        {
+          "name":"fa-undo",
+          "class":"fa-undo"
+        },
+        {
+          "name":"fa-repeat",
+          "class":"fa-repeat"
+        },{
+          "name":"fa-text-height",
+          "class":"fa-text-height"
+        },
+        {
+          "name":"fa-text-width",
+          "class":"fa-text-width"
+        },
+        {
+          "name":"fa-align-left",
+          "class":"fa-align-left"
+        },{
+          "name":"fa-align-center",
+          "class":"fa-align-center"
+        },
+        {
+          "name":"fa-align-right",
+          "class":"fa-align-right"
+        },
+        {
+          "name":"fa-align-justify",
+          "class":"fa-align-justify"
+        },{
+          "name":"fa-align-left",
+          "class":"fa-align-left"
+        },
+        {
+          "name":"fa-align-right",
+          "class":"fa-align-right"
+        },
+        {
+          "name":"fa-font",
+          "class":"fa-font"
+        },{
+          "name":"fa-bold",
+          "class":"fa-bold"
+        },
+        {
+          "name":"fa-italic",
+          "class":"fa-italic"
+        },
+        {
+          "name":"fa-strikethrough",
+          "class":"fa-strikethrough"
+        },{
+          "name":"fa-underline",
+          "class":"fa-underline"
+        },
+        {
+          "name":"fa-link",
+          "class":"fa-link"
+        },
+        {
+          "name":"fa-paperclip",
+          "class":"fa-paperclip"
+        },{
+          "name":"fa-columns",
+          "class":"fa-columns"
+        },
+        {
+          "name":"fa-table",
+          "class":"fa-table"
+        },
+        {
+          "name":"fa-th-large",
+          "class":"fa-th-large"
+        },{
+          "name":"fa-th",
+          "class":"fa-th"
+        },
+        {
+          "name":"fa-th-list",
+          "class":"fa-th-list"
+        },
+        {
+          "name":"fa-list",
+          "class":"fa-list"
+        },{
+          "name":"fa-list-ol",
+          "class":"fa-list-ol"
+        },
+        {
+          "name":"fa-list-ul",
+          "class":"fa-list-ul"
+        },
+        {
+          "name":"fa-list-alt",
+          "class":"fa-list-alt"
+        }
+      ]
+    },{
+      "title": "指示方向的图标",
+      "data":[
+        {
+          "name":"fa-angle-left",
+          "class":"fa-angle-left"
+        },
+        {
+          "name":"fa-angle-right",
+          "class":"fa-angle-right"
+        },{
+          "name":"fa-angle-up",
+          "class":"fa-angle-up"
+        },
+        {
+          "name":"fa-angle-down",
+          "class":"fa-angle-down"
+        },
+        {
+          "name":"fa-arrow-down",
+          "class":"fa-arrow-down"
+        },{
+          "name":"fa-arrow-left",
+          "class":"fa-arrow-left"
+        },
+        {
+          "name":"fa-arrow-right",
+          "class":"fa-arrow-right"
+        },
+        {
+          "name":"fa-caret-up",
+          "class":"fa-caret-up"
+        },{
+          "name":"fa-chevron-down",
+          "class":"fa-chevron-down"
+        },
+        {
+          "name":"fa-chevron-left",
+          "class":"fa-chevron-left"
+        },
+        {
+          "name":"fa-chevron-right",
+          "class":"fa-chevron-right"
+        },{
+          "name":"fa-chevron-up",
+          "class":"fa-chevron-up"
+        },
+        {
+          "name":"fa-arrow-circle-down",
+          "class":"fa-arrow-circle-down"
+        },
+        {
+          "name":"fa-arrow-circle-left",
+          "class":"fa-arrow-circle-left"
+        },{
+          "name":"fa-arrow-circle-right",
+          "class":"fa-arrow-circle-right"
+        },
+        {
+          "name":"fa-arrow-circle-up",
+          "class":"fa-arrow-circle-up"
+        },
+        {
+          "name":"fa-angle-double-left",
+          "class":"fa-angle-double-left"
+        },{
+          "name":"fa-angle-double-right",
+          "class":"fa-angle-double-right"
+        },
+        {
+          "name":"fa-angle-double-up",
+          "class":"fa-angle-double-up"
+        },
+        {
+          "name":"fa-angle-double-down",
+          "class":"fa-angle-double-down"
+        },{
+          "name":"fa-hand-o-down",
+          "class":"fa-hand-o-down"
+        },
+        {
+          "name":"fa-hand-o-left",
+          "class":"fa-hand-o-left"
+        },
+        {
+          "name":"fa-hand-o-right",
+          "class":"fa-hand-o-right"
+        },{
+          "name":"fa-hand-o-up",
+          "class":"fa-hand-o-up"
+        },
+        {
+          "name":"fa-circle",
+          "class":"fa-circle"
+        },
+        {
+          "name":"fa-circle-o",
+          "class":"fa-circle-o"
+        }
+      ]
+    },{
+      "title": "视频播放器图标",
+      "data":[
+        {
+          "name":"fa-play-circle",
+          "class":"fa-play-circle"
+        },
+        {
+          "name":"fa-play",
+          "class":"fa-play"
+        },{
+          "name":"fa-pause",
+          "class":"fa-pause"
+        },
+        {
+          "name":"fa-stop",
+          "class":"fa-stop"
+        },
+        {
+          "name":"fa-step-backward",
+          "class":"fa-step-backward"
+        },{
+          "name":"fa-fast-backward",
+          "class":"fa-fast-backward"
+        },
+        {
+          "name":"fa-backward",
+          "class":"fa-backward"
+        },
+        {
+          "name":"fa-forward",
+          "class":"fa-forward"
+        },{
+          "name":"fa-fast-forward",
+          "class":"fa-fast-forward"
+        },
+        {
+          "name":"fa-step-forward",
+          "class":"fa-step-forward"
+        },
+        {
+          "name":"fa-eject",
+          "class":"fa-eject"
+        },{
+          "name":"fa-arrows-alt",
+          "class":"fa-arrows-alt"
+        },
+        {
+          "name":"fa-compress",
+          "class":"fa-compress"
+        },
+        {
+          "name":"fa-expand",
+          "class":"fa-expand"
+        }
+      ]
+    },{
+      "title": "SNS图标",
+      "data":[
+        {
+          "name":"fa-phone",
+          "class":"fa-phone"
+        },
+        {
+          "name":"fa-phone-square",
+          "class":"fa-phone-square"
+        },{
+          "name":"fa-facebook",
+          "class":"fa-facebook"
+        },
+        {
+          "name":"fa-facebook-square",
+          "class":"fa-facebook-square"
+        },
+        {
+          "name":"fa-twitter",
+          "class":"fa-twitter"
+        },{
+          "name":"fa-twitter-square",
+          "class":"fa-twitter-square"
+        },
+        {
+          "name":"fa-github",
+          "class":"fa-github"
+        },
+        {
+          "name":"fa-github-alt",
+          "class":"fa-github-alt"
+        },{
+          "name":"fa-github-square",
+          "class":"fa-github-square"
+        },
+        {
+          "name":"fa-linkedin",
+          "class":"fa-linkedin"
+        },
+        {
+          "name":"fa-linkedin-square",
+          "class":"fa-linkedin-square"
+        },{
+          "name":"fa-pinterest",
+          "class":"fa-pinterest"
+        },
+        {
+          "name":"fa-pinterest-square",
+          "class":"fa-pinterest-square"
+        },
+        {
+          "name":"fa-google-plus",
+          "class":"fa-google-plus"
+        },
+        {
+          "name":"fa-google-plus-square",
+          "class":"fa-google-plus-square"
+        },
+        {
+          "name":"fa-square",
+          "class":"fa-square"
+        }
+      ]
+    },{
+      "title": "医疗图标",
+      "data":[
+        {
+          "name":"fa-ambulance",
+          "class":"fa-ambulance"
+        },
+        {
+          "name":"fa-stethoscope",
+          "class":"fa-stethoscope"
+        },{
+          "name":"fa-h-square",
+          "class":"fa-h-square"
+        },
+        {
+          "name":"fa-hospital-o",
+          "class":"fa-hospital-o"
+        },
+        {
+          "name":"fa-medkit",
+          "class":"fa-medkit"
+        },{
+          "name":"fa-plus-square",
+          "class":"fa-plus-square"
+        },
+        {
+          "name":"fa-stethoscope",
+          "class":"fa-stethoscope"
+        },
+        {
+          "name":"fa-user-md",
+          "class":"fa-user-md"
         }
       ]
     }

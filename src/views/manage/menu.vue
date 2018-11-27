@@ -97,7 +97,7 @@
                         <el-input v-model="form.target"></el-input><span>链接地址打开的目标窗口，默认：mainFrame</span>
                     </el-form-item>
                     <el-form-item label="图标">
-                        <span>无</span> <el-button type="primary" @click="chooseIcon" size="small">选择</el-button>
+                        <i class="fa" :class="form.class">{{form.class}}</i> <el-button type="primary" @click="chooseIcon" size="small">选择</el-button>
                     </el-form-item>
                     <el-form-item label="排序">
                         <el-input v-model="form.sort"></el-input><span>排列顺序，升序。</span>
@@ -133,18 +133,14 @@
         <el-dialog title="选择菜单" :visible.sync="choosePop" class="choose-pop dialog-menu" :close-on-click-modal="false">
             <div class="pop-table">
                 <div class="pop-content">
-                    <div class="choose-cell">
-                        <h1 class="title"></h1>
+                    <div class="choose-cell" v-for="(item,index) in iconArr.data" :key="'title' + index">
+                        <h1 class="title">{{item.title}}</h1>
                         <div class="detail-content">
-                            <div class="cell">
-                                <i class="fa fa-camera-retro"></i> fa-camera-retro
+                            <div class="content-cell" v-for="(i,idx) in item.data" :key="'menu' + idx" @click="chooseMenu(i)">
+                                <i class="fa" :class="i.class"></i> {{i.name}}
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="pop-btn">
-                    <el-button type="success" @click="confirmChooseMenu">确定</el-button>
-                    <el-button type="info" @click="choosePop = false">取消</el-button>
                 </div>
             </div>
         </el-dialog>
@@ -152,9 +148,11 @@
 </template>
 
 <script>
+  import IconArr from './../../assets/json/icons.json'
   export default {
     data() {
       return {
+        iconArr:IconArr,
         middleChooseBranch:'',
         filterText: '',
         editPop: false,
@@ -163,6 +161,7 @@
         isEdit:false,
         choosePop:false,
         form: {
+          class:'',
           branch:'',
           name: '',
           link:'',
@@ -335,6 +334,12 @@
       // 选择图表
       chooseIcon() {
         this.choosePop = true
+      },
+      // 选择菜单
+      chooseMenu(item) {
+        console.log(item)
+        this.form.class = item.class;
+        this.choosePop = false;
       }
     },
     watch: {
@@ -374,7 +379,32 @@
     }
     .dialog-menu .el-dialog__body {
         height:60vh;
+        padding: 0 20px 30px;
         overflow: hidden;
+        .choose-cell {
+            clear:both;
+            .title {
+                font-size: 30px;
+                line-height: 60px;
+                color:#026ab3;
+            }
+            .detail-content {
+                width:100%;
+                .content-cell {
+                    float: left;
+                    width:25%;
+                    cursor: pointer;
+                    height:30px;
+                    line-height: 30px;
+                    text-align: left;
+                    color:#333;
+                    font-size: 16px;
+                    &:hover {
+                        color:#026ab3;
+                     }
+                }
+            }
+        }
     }
     .pop-table {
         height:100%;
