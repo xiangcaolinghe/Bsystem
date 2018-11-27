@@ -1,5 +1,5 @@
 <template>
-    <div class="org-page">
+    <div class="menu-page">
         <div class="left cell">
             <div class="title">
                 组织机构
@@ -129,28 +129,23 @@
                 </el-form>
             </div>
         </el-dialog>
-        <!--选择部门弹层-->
-        <el-dialog title="选择部门" :visible.sync="choosePop" class="choose-pop" :close-on-click-modal="false">
-            <div class="pop-content">
-                <el-input
-                        placeholder="输入关键字进行过滤"
-                        v-model="filterText">
-                </el-input>
-                <el-tree
-                        @node-click="chooseNodeClick"
-                        class="filter-tree"
-                        :data="data"
-                        :props="defaultProps"
-                        default-expand-all
-                        :filter-node-method="filterNode"
-                        ref="filterTree"
-                        :default-expand-all="true"
-                        :expand-on-click-node="false">
-                </el-tree>
-            </div>
-            <div class="pop-btn">
-                <el-button type="success" @click="confirmChooseBranch">确定</el-button>
-                <el-button type="info" @click="choosePop = false">取消</el-button>
+        <!--选择图表弹层-->
+        <el-dialog title="选择菜单" :visible.sync="choosePop" class="choose-pop dialog-menu" :close-on-click-modal="false">
+            <div class="pop-table">
+                <div class="pop-content">
+                    <div class="choose-cell">
+                        <h1 class="title"></h1>
+                        <div class="detail-content">
+                            <div class="cell">
+                                <i class="fa fa-camera-retro"></i> fa-camera-retro
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pop-btn">
+                    <el-button type="success" @click="confirmChooseMenu">确定</el-button>
+                    <el-button type="info" @click="choosePop = false">取消</el-button>
+                </div>
             </div>
         </el-dialog>
     </div>
@@ -244,12 +239,12 @@
       searchClick() {
         console.log(this.search)
       },
-      confirmChooseBranch () {
-        if (this.addPop) {
-          this.form.branch = this.middleChooseBranch;
-        } else {
-          this.search.branch = this.middleChooseBranch;
-        }
+      confirmChooseMenu () {
+//        if (this.addPop) {
+//          this.form.branch = this.middleChooseBranch;
+//        } else {
+//          this.search.branch = this.middleChooseBranch;
+//        }
         this.choosePop = false
       },
       filterNode(value, data) {
@@ -339,7 +334,7 @@
       },
       // 选择图表
       chooseIcon() {
-
+        this.choosePop = true
       }
     },
     watch: {
@@ -350,7 +345,7 @@
   };
 </script>
 <style lang="less">
-    .org-page {
+    .menu-page {
     .content {
     .search-nav {
     .flex {
@@ -377,6 +372,14 @@
     }
     }
     }
+    .dialog-menu .el-dialog__body {
+        height:60vh;
+        overflow: hidden;
+    }
+    .pop-table {
+        height:100%;
+        overflow: auto;
+    }
     .el-dialog__wrapper.tip-dialog {
     .el-dialog {
         margin: 15vh auto !important;
@@ -388,7 +391,7 @@
     .el-dialog__wrapper.choose-pop {
     .el-dialog {
         margin: 15vh auto !important;
-        width:400px;
+        width:1000px;
     .pop-content {
         height:600px;
     }
@@ -404,7 +407,7 @@
 </style>
 
 <style lang="less" scoped>
-    .org-page {
+    .menu-page {
         min-height: 800px;
         background: #fff;
         width:100%;
