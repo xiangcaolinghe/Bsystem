@@ -137,7 +137,7 @@
             </div>
         </el-dialog>
         <!--选择部门弹层-->
-        <el-dialog title="选择部门" :visible.sync="choosePop" class="choose-pop" :close-on-click-modal="false">
+        <el-dialog title="选择部门" :visible.sync="choosePop" class="choose-branch-pop" :close-on-click-modal="false">
             <div class="pop-content">
                 <el-input
                         placeholder="输入关键字进行过滤"
@@ -379,7 +379,7 @@
         min-width: 500px;
     }
     }
-    .el-dialog__wrapper.choose-pop {
+    .el-dialog__wrapper.choose-branch-pop {
     .el-dialog {
         margin: 15vh auto !important;
         width:400px;

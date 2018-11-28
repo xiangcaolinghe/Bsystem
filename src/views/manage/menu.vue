@@ -83,7 +83,7 @@
                                         autocomplete="off"
                                         placeholder="请选择"
                                         class="el-input__inner"
-                                        @click="chooseBranchPop">
+                                        @click="isBranchPop">
                             </div>
                         </div>
                     </el-form-item>
@@ -144,6 +144,30 @@
                 </div>
             </div>
         </el-dialog>
+        <!--选择部门弹层-->
+        <el-dialog title="选择部门" :visible.sync="chooseBranchPop" class="choose-branch-pop" :close-on-click-modal="false">
+            <div class="pop-content">
+                <el-input
+                        placeholder="输入关键字进行过滤"
+                        v-model="filterText">
+                </el-input>
+                <el-tree
+                        @node-click="chooseNodeClick"
+                        class="filter-tree"
+                        :data="data"
+                        :props="defaultProps"
+                        default-expand-all
+                        :filter-node-method="filterNode"
+                        ref="filterTree"
+                        :default-expand-all="true"
+                        :expand-on-click-node="false">
+                </el-tree>
+            </div>
+            <div class="pop-btn">
+                <el-button type="success" @click="confirmChooseBranch">确定</el-button>
+                <el-button type="info" @click="choosePop = false">取消</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -157,6 +181,7 @@
         filterText: '',
         editPop: false,
         addPop: false,
+        chooseBranchPop:false,
         currentPage: 1,
         isEdit:false,
         choosePop:false,
@@ -328,8 +353,8 @@
       chooseBranch() {
         this.choosePop = true
       },
-      chooseBranchPop() {
-        this.choosePop = true
+      isBranchPop() {
+        this.chooseBranchPop = true
       },
       // 选择图表
       chooseIcon() {
@@ -337,10 +362,14 @@
       },
       // 选择菜单
       chooseMenu(item) {
-        console.log(item)
         this.form.class = item.class;
         this.choosePop = false;
-      }
+      },
+      confirmChooseBranch () {
+        this.form.branch = this.middleChooseBranch;
+        this.chooseBranchPop = false
+      },
+
     },
     watch: {
       filterText(val) {
@@ -377,6 +406,13 @@
     }
     }
     }
+    .el-form-item__content {
+        .el-radio-group {
+            .el-radio {
+                margin:0 10px 0;
+            }
+        }
+    }
     .dialog-menu .el-dialog__body {
         height:60vh;
         padding: 0 20px 30px;
@@ -409,6 +445,15 @@
     .pop-table {
         height:100%;
         overflow: auto;
+    }
+    .el-dialog__wrapper.choose-branch-pop {
+    .el-dialog {
+        margin: 15vh auto !important;
+        width:400px;
+    .pop-content {
+        height:600px;
+    }
+    }
     }
     .el-dialog__wrapper.tip-dialog {
     .el-dialog {
