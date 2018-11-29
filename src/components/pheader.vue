@@ -7,9 +7,9 @@
           <span class="title">综合业务管理系统</span>
         </span>
           <span class="welcome">
-          <i class="iconfont icon-yonghu"></i><strong>admin</strong>
-          <i class="icon iconfont icon-shenqing"></i><strong>设置</strong>
-          <i class="iconfont icon-tuichu-copy"></i><strong>退出</strong>
+            <i class="iconfont icon-yonghu"></i><strong>admin</strong>
+            <i class="icon iconfont icon-shenqing"></i><strong @click="settingClick">设置</strong>
+            <i class="iconfont icon-tuichu-copy"></i><strong>退出</strong>
         </span>
         </div>
       </div>
@@ -51,6 +51,58 @@
           <slot name="right-view"></slot>
         </div>
       </div>
+      <!--设置-->
+      <el-dialog title="设置" :visible.sync="settingPop" class="tip-dialog setting-pop" :close-on-click-modal="false">
+        <div class="pop-content">
+          <el-tabs v-model="activeName" type="card" @tab-click="settingUserClick">
+            <el-tab-pane label="个人信息修改" name="first">
+              <el-form ref="form" :model="form" label-width="80px">
+                <el-form-item label="工号:">
+                  <el-input v-model="form.num"></el-input>
+                </el-form-item>
+                <el-form-item label="姓名:">
+                  <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="登陆名:">
+                  <el-input v-model="form.loginName"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱:">
+                  <el-input v-model="form.mail"></el-input>
+                </el-form-item>
+                <el-form-item label="电话:">
+                  <el-input v-model="form.tel"></el-input>
+                </el-form-item>
+                <el-form-item label="手机:">
+                  <el-input v-model="form.phone"></el-input>
+                </el-form-item>
+                <!--编辑-->
+                <el-form-item>
+                  <el-button type="primary" @click="onSubmitInfo">保存</el-button>
+                  <el-button @click="settingPop = false">返回</el-button>
+                </el-form-item>
+              </el-form>
+            </el-tab-pane>
+            <el-tab-pane label="密码修改" name="second" class="password-cell">
+              <el-form ref="form" :model="form" label-width="100px">
+                <el-form-item label="原密码:">
+                  <el-input v-model="form.num"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码:">
+                  <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码确认:">
+                  <el-input v-model="form.loginName"></el-input>
+                </el-form-item>
+                <!--编辑-->
+                <el-form-item>
+                  <el-button type="primary" @click="onSubmitPassword">保存</el-button>
+                  <el-button @click="settingPop = false">返回</el-button>
+                </el-form-item>
+              </el-form>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </el-dialog>
     </div>
 </template>
 
@@ -61,17 +113,96 @@
         return{
           isActive:1,
           isLeftActive:1,
-          isLeftNav: 1
+          isLeftNav: 1,
+          settingPop:true,
+          choosePop:false,
+          activeName: 'first',
+          form: {
+            branch:'',
+            num: '',
+            org: '',
+            name:'',
+            loginName:'',
+            password:'',
+            confirmPas:'',
+            mail:'',
+            tel:'',
+            phone:'',
+            isLogin:'',
+            role: '',
+            desc: ''
+          },
+          data: [{
+            label: '中国民用航空局空中交通管理局',
+            children: [{
+              label: '空域管理中心',
+              children: [{
+                label: '空域管理室'
+              },
+                {
+                  label: '程序设计室'
+                }]
+            }]
+          }],
+          defaultProps: {
+            children: 'children',
+            label: 'label'
+          },
+          filterText: '',
         }
       },
       methods:{
         switcher(number){
           this.isLeftActive=number;
+        },
+        settingClick() {
+          this.settingPop = true
+        },
+        settingUserClick() {
+
+        },
+        onSubmitInfo() {
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          });
+          let that = this
+          setTimeout(function () {
+            that.settingPop = false;
+          },400)
+        },
+        // 选择部门pop
+        chooseBranchPop() {
+          this.choosePop = true
+        },
+        onSubmitPassword() {
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          });
+          let that = this
+          setTimeout(function () {
+            that.settingPop = false;
+          },400)
         }
       }
     }
 </script>
-
+<style lang="less">
+  .up_header {
+    .tip-dialog {
+    &.setting-pop {
+      .el-dialog {
+        overflow: hidden;
+        height:600px;
+        .password-cell {
+          margin-top: 40px;
+        }
+      }
+     }
+    }
+  }
+</style>
 <style lang="less" scoped>
   .up_header{
     min-width: 1200px;
