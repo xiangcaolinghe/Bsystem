@@ -1,340 +1,757 @@
 <template>
-    <div class="user-page">
-        <div class="left cell">
-            <div class="title">
-                组织机构
-            </div>
-            <div class="content">
-                <el-tree
-                        :data="data"
-                        :props="defaultProps"
-                        @node-click="handleNodeClick"
-                        :expand-on-click-node="false"
-                        :default-expand-all="true"></el-tree>
-            </div>
-        </div>
-        <div class="right cell">
-            <div class="title">
-                用户列表
-            </div>
-            <div class="content">
-                <div class="search-nav">
-                    <el-row :gutter="20" style="margin-bottom:20px;">
-                        <el-col :span="8" class="flex">
-                            <span class="name">归属机构：</span>
-                            <el-select v-model="search.org" clearable placeholder="请选择">
-                                <el-option
-                                        v-for="item in options"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select></el-col>
-                        <el-col :span="8" class="flex">
-                            <span class="name">登陆名：</span>
-                            <el-input class="input"
-                                      placeholder="请输入登录名"
-                                      v-model="search.login">
-                            </el-input>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="20">
-                        <el-col :span="8" class="flex">
-                            <span class="name">归属部门：</span>
-                            <div class="el-select" readonly="readonly">
-                                <div class="el-input el-input--suffix">
-                                    <input
-                                            v-model="search.branch"
-                                            type="text"
-                                            readonly="readonly"
-                                            autocomplete="off"
-                                            placeholder="请选择"
-                                            class="el-input__inner"
-                                            @click="chooseBranch">
-                                </div>
-                            </div>
-                        </el-col>
-                        <el-col :span="8" class="flex">
-                            <span class="name">姓名：</span>
-                            <el-input class="input"
-                                      placeholder="请输入姓名"
-                                      v-model="search.name">
-                            </el-input>
-                        </el-col>
-                        <el-col :span="3" class="flex">
-                            <el-button type="primary" icon="el-icon-search" @click="searchClick">搜索</el-button>
-                        </el-col>
-                        <el-col :span="4" class="flex">
-                            <el-button type="success" @click="addUser">添加</el-button>
-                        </el-col>
-                    </el-row>
-                </div>
-                <div class="result-table">
-                    <el-table
-                            :data="tableData"
-                            border
-                            style="width: 100%">
-                        <el-table-column
-                                prop="org"
-                                label="归属机构"
-                                width="150">
-                        </el-table-column>
-                        <el-table-column
-                                prop="branch"
-                                label="归属部门"
-                                width="120">
-                        </el-table-column>
-                        <el-table-column
-                                prop="loginName"
-                                label="登录名"
-                                width="120">
-                        </el-table-column>
-                        <el-table-column
-                                prop="name"
-                                label="姓名"
-                                width="120">
-                        </el-table-column>
-                        <el-table-column
-                                prop="tel"
-                                label="电话"
-                                width="120">
-                        </el-table-column>
-                        <el-table-column
-                                prop="phone"
-                                label="手机"
-                                width="120">
-                        </el-table-column>
-                        <el-table-column
-                                prop="role"
-                                label="角色">
-                        </el-table-column>
-                        <el-table-column
-                                label="操作"
-                                width="100">
-                            <template slot-scope="scope">
-                                <el-button @click="handleEdit(scope.row)" type="text" size="small">修改</el-button>
-                                <el-button @click="handleDel(scope.row)" type="text" size="small">删除</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </div>
-                <div class="pagination-box">
-                    <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page.sync="currentPage"
-                            :page-size="100"
-                            layout="prev, pager, next, jumper"
-                            :total="1000">
-                    </el-pagination>
-                </div>
-            </div>
-        </div>
-        <!--添加及编辑弹框-->
-        <el-dialog title="添加用户" :visible.sync="addPop" class="tip-dialog" :close-on-click-modal="false">
-            <div class="pop-content">
-                <el-form ref="form" :model="form" label-width="100px">
-                    <el-form-item label="归属机构">
-                        <el-select v-model="form.org" placeholder="请选择归属机构">
-                            <el-option label="区域一" value="shanghai"></el-option>
-                            <el-option label="区域二" value="beijing"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="归属部门">
-                        <div class="el-select" readonly="readonly">
-                            <div class="el-input el-input--suffix">
-                                <input
-                                        v-model="form.branch"
-                                        type="text"
-                                        readonly="readonly"
-                                        autocomplete="off"
-                                        placeholder="请选择"
-                                        class="el-input__inner"
-                                        @click="chooseBranchPop">
-                            </div>
-                        </div>
-                    </el-form-item>
-                    <el-form-item label="工号">
-                        <el-input v-model="form.num"></el-input>
-                    </el-form-item>
-                    <el-form-item label="姓名">
-                        <el-input v-model="form.name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="登陆名">
-                        <el-input v-model="form.loginName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="密码">
-                        <el-input v-model="form.password"></el-input>
-                    </el-form-item>
-                    <el-form-item label="确认密码">
-                        <el-input v-model="form.confirmPas"></el-input>
-                    </el-form-item>
-                    <el-form-item label="邮箱">
-                        <el-input v-model="form.mail"></el-input>
-                    </el-form-item>
-                    <el-form-item label="电话">
-                        <el-input v-model="form.tel"></el-input>
-                    </el-form-item>
-                    <el-form-item label="手机">
-                        <el-input v-model="form.phone"></el-input>
-                    </el-form-item>
-                    <el-form-item label="是否允许登陆">
-                        <el-switch v-model="form.isLogin"></el-switch>
-                    </el-form-item>
-                    <el-form-item label="用户角色">
-                        <el-radio-group v-model="form.role">
-                            <el-radio label="P字码管理员"></el-radio>
-                            <el-radio label="临时航线管理员"></el-radio>
-                            <el-radio label="五字码管理员"></el-radio>
-                            <el-radio label="导航台管理员"></el-radio>
-                            <el-radio label="扇区管理员"></el-radio>
-                            <el-radio label="普通用户机场管理员"></el-radio>
-                            <el-radio label="班机航线管理员"></el-radio>
-                            <el-radio label="系统管理员"></el-radio>
-                            <el-radio label="航路管理员"></el-radio>
-                            <el-radio label="部门领导飞行程序管理员"></el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="备注">
-                        <el-input type="textarea" v-model="form.desc"></el-input>
-                    </el-form-item>
-                    <el-form-item label="创建时间" v-show="isEdit">
-                        <div>2016年10月18日 星期二 17:38:51</div>
-                    </el-form-item>
-                    <el-form-item label="最后登陆" v-show="isEdit">
-                        <div>IP: 0:0:0:0:0:0:0:1    时间：2016年11月14日 星期一 15:46:58</div>
-                    </el-form-item>
-                    <!--添加-->
-                    <el-form-item v-show="!isEdit">
-                        <el-button type="primary" @click="onSubmitAdd">保存</el-button>
-                        <el-button>返回</el-button>
-                    </el-form-item>
-                    <!--编辑-->
-                    <el-form-item v-show="isEdit">
-                        <el-button type="primary" @click="onSubmitEdit">保存</el-button>
-                        <el-button>返回</el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
-        </el-dialog>
-        <!--选择部门弹层-->
-        <el-dialog title="选择部门" :visible.sync="choosePop" class="choose-pop" :close-on-click-modal="false">
-            <div class="pop-content">
-                <el-input
-                        placeholder="输入关键字进行过滤"
-                        v-model="filterText">
-                </el-input>
-                <el-tree
-                        @node-click="chooseNodeClick"
-                        class="filter-tree"
-                        :data="data"
-                        :props="defaultProps"
-                        default-expand-all
-                        :filter-node-method="filterNode"
-                        ref="filterTree"
-                        :default-expand-all="true"
-                        :expand-on-click-node="false">
-                </el-tree>
-            </div>
-            <div class="pop-btn">
-                <el-button type="success" @click="confirmChooseBranch">确定</el-button>
-                <el-button type="info" @click="choosePop = false">取消</el-button>
-            </div>
-        </el-dialog>
+  <div class="user-page">
+    <div class="left cell">
+      <div class="title">
+        组织机构
+      </div>
+      <div class="content">
+        <el-tree
+          :data="listOrgAll"
+          :props="defaultProps"
+          @node-click="OrgTreeClick"
+          :expand-on-click-node="false"
+          :default-expand-all="true"></el-tree>
+      </div>
     </div>
+    <div class="right cell">
+      <div class="title">
+        用户列表
+      </div>
+      <div class="content">
+        <div class="search-nav">
+          <el-row :gutter="20" style="margin-bottom:20px;">
+            <el-col :span="8" class="flex">
+              <span class="name">归属机构：</span>
+              <el-select v-model="search.org" clearable placeholder="请选择">
+                <el-option
+                  v-for="item in OrgOpt"
+                  :key="item.id"
+                  :label="item.mName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="8" class="flex">
+              <span class="name">登陆名：</span>
+              <el-input class="input"
+                        placeholder="请输入登录名"
+                        v-model="search.loginName">
+              </el-input>
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="8" class="flex">
+              <span class="name">归属部门：</span>
+              <div class="el-select" readonly="readonly">
+                <div class="el-input el-input--suffix">
+                  <input
+                    v-model="udepartmentName"
+                    type="text"
+                    readonly="readonly"
+                    autocomplete="off"
+                    placeholder="请选择"
+                    class="el-input__inner"
+                    @click="choosePop=true">
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="8" class="flex">
+              <span class="name">姓名：</span>
+              <el-input class="input"
+                        placeholder="请输入姓名"
+                        v-model="search.Name">
+              </el-input>
+            </el-col>
+            <el-col :span="3" class="flex">
+              <el-button type="primary" icon="el-icon-search" @click="getSearch">搜索</el-button>
+            </el-col>
+            <el-col :span="4" class="flex">
+              <el-button type="success" @click="addUser">添加</el-button>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="result-table">
+          <el-table
+            :data="tableData"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="umechanismName"
+              label="归属机构"
+              width="150">
+            </el-table-column>
+            <el-table-column
+              prop="udepartmentName"
+              label="归属部门"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              prop="uname"
+              label="登录名"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              prop="uusername"
+              label="姓名"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              prop="utelephone"
+              label="电话"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              prop="umobilephone"
+              label="手机"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              prop="urole"
+              label="角色">
+            </el-table-column>
+            <el-table-column
+              label="操作"
+              width="100">
+              <template slot-scope="scope">
+                <el-button @click="editOpen(scope.row.id)" type="text" size="small">修改</el-button>
+                <el-button @click="del(scope.row.id)" type="text" size="small">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div class="pagination-box">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[10, 50, 100]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+          </el-pagination>
+        </div>
+      </div>
+    </div>
+    <!--添加弹框-->
+    <el-dialog title="添加用户" :visible.sync="addPop" class="tip-dialog" :close-on-click-modal="false">
+      <div class="pop-content">
+        <el-form ref="addObject" :model="addObject" label-width="100px" status-icon :rules="rules">
+          <el-form-item label="归属机构">
+            <el-select v-model="addObject.umechanism" placeholder="请选择归属机构" @change="getDepartment(addObject.umechanism)">
+              <el-option
+                v-for="item in OrgOpt"
+                :key="item.id"
+                :label="item.mName"
+                :value="item.id"
+                >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="归属部门">
+            <div class="el-select" readonly="readonly">
+              <div class="el-input el-input--suffix">
+                <input
+                  v-model="udepartmentName"
+                  type="text"
+                  readonly="readonly"
+                  autocomplete="off"
+                  placeholder="请选择"
+                  class="el-input__inner"
+                  @click="choosePop = true">
+              </div>
+            </div>
+          </el-form-item>
+          <el-form-item label="姓名" prop="uusername">
+            <el-input v-model="addObject.uusername"></el-input>
+          </el-form-item>
+          <el-form-item label="登陆名" prop="uname">
+            <el-input v-model="addObject.uname"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="upasswd">
+            <el-input type="password" v-model="addObject.upasswd" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码" prop="confirmPas">
+            <el-input type="password" v-model="addObject.confirmPas" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="uemail">
+            <el-input v-model="addObject.uemail"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="utelephone">
+            <el-input v-model="addObject.utelephone"></el-input>
+          </el-form-item>
+          <el-form-item label="手机" prop="umobilephone">
+            <el-input v-model="addObject.umobilephone"></el-input>
+          </el-form-item>
+          <el-form-item label="用户角色">
+            <el-checkbox-group v-model="checkedRole" @change="AddhandleChecked">
+              <el-checkbox v-for="p in power" :label="p.roleName" :key="p.id">{{p.roleName}}</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="备注">
+            <el-input type="textarea" v-model="addObject.ucontent"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="addSave('addObject')">保存</el-button>
+            <el-button @click="addPop = false">返回</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
+    <!--编辑弹框-->
+    <el-dialog title="编辑用户" :visible.sync="editPop" class="tip-dialog" :close-on-click-modal="false">
+      <div class="pop-content">
+        <el-form ref="editObject" :model="editObject" label-width="100px" status-icon :rules="rules">
+          <el-form-item label="归属机构">
+            <el-select v-model="editObject.umechanism" placeholder="请选择归属机构" @change="getDepartment(editObject.umechanism)">
+              <el-option
+                v-for="item in OrgOpt"
+                :key="item.id"
+                :label="item.mName"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="归属部门">
+            <div class="el-select" readonly="readonly">
+              <div class="el-input el-input--suffix">
+                <input
+                  v-model="udepartmentName"
+                  type="text"
+                  readonly="readonly"
+                  autocomplete="off"
+                  placeholder="请选择"
+                  class="el-input__inner"
+                  @click="udeClick">
+              </div>
+            </div>
+          </el-form-item>
+          <el-form-item label="姓名" prop="uusername">
+            <el-input v-model="editObject.uusername"></el-input>
+          </el-form-item>
+          <el-form-item label="登陆名" prop="uname">
+            <el-input v-model="editObject.uname"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="uemail">
+            <el-input v-model="editObject.uemail"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="utelephone">
+            <el-input v-model="editObject.utelephone"></el-input>
+          </el-form-item>
+          <el-form-item label="手机" prop="umobilephone">
+            <el-input v-model="editObject.umobilephone"></el-input>
+          </el-form-item>
+          <el-form-item label="用户角色">
+            <el-checkbox-group v-model="checkedRoleEdit" @change="EdithandleChecked">
+              <el-checkbox v-for="p in power" :label="p.roleName" :key="p.id">{{p.roleName}}</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="备注">
+            <el-input type="textarea" v-model="editObject.ucontent"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="editSave('editObject')">保存</el-button>
+            <el-button @click="editPop = false">返回</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-dialog>
+    <!--选择部门弹层-->
+    <el-dialog title="选择部门" :visible.sync="choosePop" class="choose-pop" :close-on-click-modal="false">
+      <div class="pop-content">
+        <el-input
+          placeholder="输入关键字进行过滤"
+          v-model="filterText">
+        </el-input>
+        <el-tree
+          @node-click="chooseNodeClick"
+          class="filter-tree"
+          :data="listOrg"
+          :props="defaultProps"
+          default-expand-all
+          :filter-node-method="filterNode"
+          ref="filterTree"
+          :default-expand-all="true"
+          :expand-on-click-node="false">
+        </el-tree>
+      </div>
+      <div class="pop-btn">
+        <el-button type="success" @click="confirmChooseBranch">确定</el-button>
+        <el-button type="info" @click="choosePop = false">取消</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
   export default {
     data() {
+      var checkPhone = (rule, value, callback) => {
+        if (!value) {
+          return ;
+        } else {
+          const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
+          console.log(reg.test(value));
+          if (reg.test(value)) {
+            callback();
+          } else {
+            return callback(new Error('请输入正确的手机号'));
+          }
+        }
+      };
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.addObject.upasswd) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
       return {
-        middleChooseBranch:'',
-        filterText: '',
         editPop: false,
         addPop: false,
-        currentPage: 1,
-        isEdit:false,
-        choosePop:false,
-        form: {
-          branch:'',
-          num: '',
+        choosePop: false,
+        OrgOpt: [],
+        power:[],
+        checkedRole:[],
+        checkedRoleEdit:[],
+        search: {
           org: '',
-          name:'',
-          loginName:'',
-          password:'',
-          confirmPas:'',
-          mail:'',
-          tel:'',
-          phone:'',
-          isLogin:'',
-          role: '',
-          desc: ''
+          loginName: '',
+          branch: '',
+          Name: ''
         },
-        search:{
-          org:'',
-          name:'',
-          login:'',
-          branch:''
+        currentPage: 1,
+        pageSize: 10,
+        total: 0,
+
+
+        middleChooseBranch: '',
+        filterText: '',
+
+
+        udepartmentName:'',
+        udepartmentId : '',
+        addObject: {
+          umechanism: '',
+          // udepartment: '',
+          uusername: '',
+          uname: '',
+          upasswd: '',
+          confirmPas: '',
+          uemail: '',
+          utelephone: '',
+          umobilephone: '',
+          urole: [],
+          ucontent: ''
         },
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }],
-        data: [{
-          label: '中国民用航空局空中交通管理局',
-          children: [{
-            label: '空域管理中心',
-            children: [{
-              label: '空域管理室'
-            },
-              {
-                label: '程序设计室'
-              }]
-          }]
-        }],
+        editObject: {
+          umechanism: '',
+          // udepartment: '',
+          uusername: '',
+          uname: '',
+          upasswd: '',
+          confirmPas: '',
+          uemail: '',
+          utelephone: '',
+          umobilephone: '',
+          urole: [],
+          ucontent: ''
+        },
+        tableData: [],
+        rules: {
+          uusername: [
+            { required: true, message: '必填', trigger: 'blur' },
+          ],
+          uname: [
+            { required: true, message: '必填', trigger: 'blur' },
+          ],
+          upasswd: [
+            {required: true, message: '请输入密码', trigger: 'blur'},
+            {min: 6, message: '长度至少6位', trigger: 'blur'}
+          ],
+          confirmPas: [
+            {validator: validatePass2, trigger: 'blur'},
+            {required: true, message: '请再次输入密码', trigger: 'blur'},
+            {min: 6, message: '长度至少6位', trigger: 'blur'}
+          ],
+          uemail: [
+            { required: true, message: '必填', trigger: 'blur' },
+          ],
+          umobilephone: [
+            {validator: checkPhone, trigger: 'blur'},
+            { required: true, message: '必填', trigger: 'blur' },
+          ],
+          utelephone : [
+            { required: true, message: '必填', trigger: 'blur' },
+          ],
+          urole: [
+            { type: 'array', required: true, message: '请至少选择角色', trigger: 'change' }
+          ],
+        },
+        // 搜索归属部门
+        listOrg:[],
+        // 组织机构列表
+        listOrgAll:[],
         defaultProps: {
           children: 'children',
           label: 'label'
         },
-        tableData: [{
-          id:1,
-          org: '中国民航空局',
-          branch: '程序设计室',
-          loginName: 'nihaonji',
-          name: '王小虎',
-          tel: '35577889999',
-          phone: '34678888',
-          role: '[班机航线管理员, 普通用户]'
-        }, {
-          id:55,
-          org: '中国民航空局',
-          branch: '程序设计室',
-          loginName: 'nihaonji',
-          name: '王小虎',
-          tel: '35577889999',
-          phone: '34678888',
-          role: '[班机航线管理员, 普通用户]'
-        }, {
-          id:66,
-          org: '中国民航空局',
-          branch: '程序设计室',
-          loginName: 'nihaonji',
-          name: '王小虎',
-          tel: '35577889999',
-          phone: '34678888',
-          role: '[班机航线管理员, 普通用户]'
-        }]
+        listOrgArr:[]
+
       };
     },
     methods: {
-      // 搜索
-      searchClick() {
-        console.log(this.search)
+      //加载所有机构和部门
+      getTree(){
+        let params = {};
+        API.get('/mechanism/findTreeAll', params).then((res) => {
+          console.log(res.data)
+          if (res.data.code == 200) {
+            var arr = res.data.data;
+            this.listOrgAll = this.getOrg(arr)
+            this.listOrg = this.getOrg(arr);
+            console.log(this.listOrgAll)
+            var arr = [];
+            for(var i=0;i<this.listOrgAll.length;i++){
+              arr.push(this.listOrgAll[i].id);
+            }
+            console.log(arr)
+            this.listOrgArr = arr;
+          }
+        })
       },
-      confirmChooseBranch () {
+      // 左侧树刷新列表
+      OrgTreeClick(data){
+        var arr = []
+        for(var i=0;i<this.listOrgArr.length;i++){
+          if(data.id == this.listOrgArr[i]){
+            arr.push(this.listOrgArr[i])
+          }
+        }
+        if(arr.length > 0){
+          let params = {};
+          params['uMechanism'] = data.id;
+          params['uDepartment'] ='';
+          params['uName'] = '';
+          params['uUsername'] = '';
+          API.get('/user/findByName', params).then((res) => {
+            console.log(res.data)
+            if (res.data.code == 200) {
+              this.total = res.data.count;
+              this.tableData = res.data.data;
+            }
+          })
+        }else {
+          let params = {};
+          params['uMechanism'] = '';
+          params['uDepartment'] = data.id;
+          params['uName'] = '';
+          params['uUsername'] = '';
+          API.get('/user/findByName', params).then((res) => {
+            console.log(res.data)
+            if (res.data.code == 200) {
+              this.total = res.data.count;
+              this.tableData = res.data.data;
+            }
+          })
+        }
+
+      },
+      //加载归属机构
+      getAffiliate() {
+        let params = {};
+        API.get('/user/findMechanismAndRole', params).then((res) => {
+          console.log(res.data)
+          if (res.data.code == 200) {
+            var arr = res.data.data.mechanismAll;
+            var role = res.data.data.roleInfos;
+            console.log(arr)
+            this.OrgOpt = arr;
+            console.log(role)
+            this.power = role;
+          }
+        })
+      },
+      // 加载归属部门
+      getDepartment(id){
+        let params = {};
+        params['id'] = id;
+        API.get('/mechanism/findById', params).then((res) => {
+          console.log(res.data)
+          if (res.data.code == 200) {
+            var arr = res.data.data;
+            this.listOrg = this.getOrg(arr)
+            console.log(this.listOrg)
+          }
+        })
+      },
+      // 转换树结构
+      getOrg(list){
+        for(let i = 0;i < list.length; i++){
+          list[i]["label"] = list[i]["mName"];
+          if(list[i]["childnode"]){
+            list[i]["children"] = this.getOrg(list[i]["childnode"]);
+            delete list[i]["childnode"];
+          }
+        }
+        return list;
+      },
+      // 页面初始化
+      getPage() {
+        let params = {};
+        params['page'] = this.currentPage;
+        params['count'] = this.pageSize;
+        API.get('/user/findAll', params).then((res) => {
+          console.log(res.data)
+          if (res.data.code == 200) {
+            this.total = res.data.count;
+            this.tableData = res.data.data;
+          }
+        })
+      },
+      // 搜索
+      getSearch() {
+        let params = {};
+        params['uMechanism'] = this.search.org;
+        params['uDepartment'] =this.udepartmentId;
+        params['uName'] = this.search.loginName;
+        params['uUsername'] = this.search.Name;
+        console.log(params)
+        API.get('/user/findByName', params).then((res) => {
+          console.log(res.data)
+          if (res.data.code == 200) {
+            this.total = res.data.count;
+            this.tableData = res.data.data;
+          }
+        })
+      },
+      // 搜索部门取值
+      handleNodeClick(data) {
+        this.search.branch = data.label;
+      },
+      // 新增
+      addUser() {
+        this.addPop = true;
+        this.addObject = {
+          umechanism: '',
+          // udepartment: '',
+          uusername: '',
+          uname: '',
+          upasswd: '',
+          confirmPas: '',
+          uemail: '',
+          utelephone: '',
+          umobilephone: '',
+          urole: [],
+          ucontent: ''
+        }
+        this.udepartmentName = '';
+        this.udepartmentId = '';
+        this.listOrg = [];
+        if(this.$refs.addObject){
+          this.$refs.addObject.clearValidate();
+        }else {
+          return
+        }
+      },
+      // 新增保存
+      addSave(formName) {
+        this.$refs[formName].validate((valid) => {
+            if (valid) {
+              this.addPop = false;
+              console.log(this.addObject)
+              let params = {};
+              params['uMechanism'] = this.addObject.umechanism;
+              params['uDepartment'] = this.udepartmentId;
+              params['uUsername'] = this.addObject.uusername;
+              params['uName'] = this.addObject.uname;
+              params['uPasswd'] = this.addObject.upasswd;
+              // params['confirmPas'] = this.addObject.confirmPas;
+              params['uEmail'] = this.addObject.uemail;
+              params['uTelephone'] = this.addObject.utelephone;
+              params['uMobilephone'] = this.addObject.umobilephone;
+              params['uRole'] = this.addObject.urole;
+              params['uContent'] = this.addObject.ucontent;
+
+              console.log(params)
+              API.post('/user/create', params).then((res) => {
+                if (res.data.code == 200) {
+                  this.addPop = false;
+                  this.getPage();
+                  this.$message({
+                    type: 'success',
+                    message: '新增成功!'
+                  });
+                }else {
+                  this.$message({
+                    type: 'error',
+                    message: '新增失败!'
+                  });
+                }
+              })
+            }})
+      },
+      // 新增角色
+      AddhandleChecked(){
+        this.addObject.urole=[]
+        for(var i=0;i<this.power.length;i++){
+          for(var j=0;j<this.checkedRole.length;j++){
+            if(this.power[i].roleName == this.checkedRole[j]){
+              this.addObject.urole.push(this.power[i].id)
+            }
+          }
+        }
+      },
+      // 编辑
+      editOpen(id){
+        if(this.$refs.editObject){
+          this.$refs.editObject.clearValidate();
+        }
+        this.editPop = true;
+        this.checkedRoleEdit = [];
+        this.editObject = {
+          umechanism: '',
+          // udepartment: '',
+          uusername: '',
+          uname: '',
+          upasswd: '',
+          confirmPas: '',
+          uemail: '',
+          utelephone: '',
+          umobilephone: '',
+          urole: [],
+          ucontent: ''
+        }
+        this.udepartmentName = '';
+        this.udepartmentId = '';
+        this.listOrg = [];
+        let params = {};
+        params['id'] = id;
+        API.get('/user/findById', params).then((res) => {
+          console.log(res.data)
+          if (res.data.code == 200) {
+            this.editObject = res.data.data;
+            var obj = res.data.data;
+            // 角色显示
+            var arr = obj.urole.split(',')
+            for(var i=0;i<arr.length;i++){
+              for(var j=0;j<this.power.length; j++){
+                if(arr[i]==this.power[j].roleName){
+                  this.checkedRoleEdit.push(this.power[j].roleName);
+                }
+              }
+            }
+
+            // 机构显示名称
+            var umechanismName = '';
+            umechanismName = obj.umechanismName;
+            for(var i=0;i<this.OrgOpt.length;i++){
+              if(this.OrgOpt[i].mName == umechanismName){
+                // 转换为机构id
+                this.editObject.umechanism = this.OrgOpt[i].id
+              }
+            }
+
+            // 部门显示名称
+            this.udepartmentName = obj.udepartmentName;
+            this.udepartmentId = obj.udepartmentId;
+            this.editObject.urole = obj.uroleId.split(',');
+          }
+        })
+      },
+      // 编辑保存
+      editSave(formName){
+        this.$refs[formName].validate((valid) => {
+            if (valid) {
+              let params = {};
+              params['uId'] = this.editObject.id;
+              params['uMechanism'] = this.editObject.umechanism;
+              params['uDepartment'] = this.udepartmentId;
+              params['uUsername'] = this.editObject.uusername;
+              params['uName'] = this.editObject.uname;
+              // params['uPasswd'] = this.editObject.upasswd;
+              // params['confirmPas'] = this.editObject.confirmPas;
+              params['uEmail'] = this.editObject.uemail;
+              params['uTelephone'] = this.editObject.utelephone;
+              params['uMobilephone'] = this.editObject.umobilephone;
+              params['uRole'] = this.editObject.urole;
+              params['uContent'] = this.editObject.ucontent;
+
+              console.log(params)
+              API.post('/user/update', params).then((res) => {
+                console.log(res.data)
+                if (res.data.code == 200) {
+                  this.editPop = false;
+                  this.getPage();
+                  this.$message({
+                    type: 'success',
+                    message: '编辑成功!'
+                  });
+                }else {
+                  this.$message({
+                    type: 'error',
+                    message: '编辑失败!'
+                  });
+                }
+              })
+            }})
+      },
+      // 编辑部门模态框树展示
+      udeClick(){
+        this.choosePop = true;
+        this.getDepartment(this.editObject.umechanism)
+      },
+      // 编辑角色
+      EdithandleChecked(val){
+        this.editObject.urole=[];
+        var chekc = val;
+        for(var i=0;i<this.power.length;i++){
+          for(var j=0;j< chekc.length;j++){
+            if(this.power[i].roleName == chekc[j]){
+              this.editObject.urole.push(this.power[i].id)
+            }
+          }
+        }
+      },
+      // 删除
+      del(id) {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params = {};
+          params['id'] = id;
+          API.delete('/user/delete', params).then((res) => {
+            if (res.data.code == 200) {
+              this.getPage();
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            } else if(res.data.code == 1001){
+              this.signOut()
+            } else {
+              this.$message({
+                type: 'error',
+                message: '删除失败!'
+              });
+            }
+          })
+        })
+      },
+
+      // 新增编辑部门取值
+      chooseNodeClick(data) {
+        console.log(data)
+        this.udepartmentName = data.label
+        this.udepartmentId = data.id;
+        this.choosePop = false;
+      },
+
+      confirmChooseBranch() {
         if (this.addPop) {
           this.form.branch = this.middleChooseBranch;
         } else {
@@ -346,188 +763,128 @@
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
       },
-      // 选择部门
-      chooseNodeClick(data) {
-        this.middleChooseBranch = data.label
-      },
-      handleNodeClick(data) {
-        this.search.branch = data.label;
-      },
-      handleEdit(row) {
-        for( let i in this.form){
-          this.form[i] = ''
-        }
-        this.addPop = true;
-        this.isEdit = true;
-        for( let i in row){
-          this.form[i] = row[i]
-        }
-      },
-      handleDel(row) {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.tableData = this.tableData.filter(ele => {
-            return ele.id !== row.id
-          })
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
-      },
+      // 翻页器
       handleSizeChange(val) {
         console.log(val);
+        this.pageSize = val;
+        this.getPage();
       },
       handleCurrentChange(val) {
         console.log(val);
+        this.currentPage = val;
+        this.getPage()
       },
-      // 保存添加确定按钮
-      addSave () {
-        this.addPop = false;
-        this.isEdit = false;
-      },
-      // 添加用户按钮
-      addUser() {
-        for( let i in this.form){
-          this.form[i] = ''
-        }
-        this.addPop = true;
-      },
-      // 保存添加表单
-      onSubmitAdd() {
-        console.log(this.form)
-        this.addPop = false;
-        this.$message({
-          type: 'success',
-          message: '添加成功!'
-        });
-      },
-      // 保存个人修改表单
-      onSubmitEdit() {
-        console.log(this.form)
-        this.addPop = false;
-        this.isEdit = false;
-        this.$message({
-          type: 'success',
-          message: '修改成功!'
-        });
-      },
-      // 选择部分按钮
-      chooseBranch() {
-        this.choosePop = true
-      },
-      chooseBranchPop() {
-        this.choosePop = true
-      },
+
+
+
+
     },
     watch: {
       filterText(val) {
         this.$refs.filterTree.filter(val);
       }
     },
+    created() {
+      this.getPage();
+      this.getAffiliate();
+      this.getTree();
+
+    }
   };
 </script>
 <style lang="less">
-    .user-page {
-       .content {
-           .search-nav {
-                .flex {
-                    display: flex;
-                }
-                .name {
-                    display: block;
-                    line-height: 40px;
-                    font-weight: 600;
-                    width:120px;
-                    font-size: 17px;
-                }
-           }
-            .result-table {
-                .has-gutter {
-                    tr {
-                        th {
-                            background: #026ab3;
-                            color:#fff;
-                            font-weight: 700;
-                            text-align: center;
-                        }
-                    }
-                }
+  .user-page {
+    .content {
+      .search-nav {
+        .flex {
+          display: flex;
+        }
+        .name {
+          display: block;
+          line-height: 40px;
+          font-weight: 600;
+          width: 120px;
+          font-size: 17px;
+        }
+      }
+      .result-table {
+        .has-gutter {
+          tr {
+            th {
+              background: #026ab3;
+              color: #fff;
+              font-weight: 700;
+              text-align: center;
             }
-       }
-        .el-dialog__wrapper.tip-dialog {
-            .el-dialog {
-                margin: 15vh auto !important;
-                width:50%;
-                max-width: 1200px;
-                min-width: 500px;
-            }
+          }
         }
-        .el-dialog__wrapper.choose-pop {
-            .el-dialog {
-                margin: 15vh auto !important;
-                width:400px;
-                .pop-content {
-                    height:600px;
-                }
-            }
-        }
-        .el-radio {
-            margin:0 30px 20px 0;
-        }
-        .el-radio+.el-radio {
-            margin:0 30px 20px 0;
-        }
+      }
     }
+    .el-dialog__wrapper.tip-dialog {
+      .el-dialog {
+        margin: 15vh auto !important;
+        width: 50%;
+        max-width: 1200px;
+        min-width: 500px;
+      }
+    }
+    .el-dialog__wrapper.choose-pop {
+      .el-dialog {
+        margin: 15vh auto !important;
+        width: 400px;
+        .pop-content {
+          height: 600px;
+        }
+      }
+    }
+    .el-radio {
+      margin: 0 30px 20px 0;
+    }
+    .el-radio + .el-radio {
+      margin: 0 30px 20px 0;
+    }
+  }
 </style>
 
 <style lang="less" scoped>
-    .user-page {
-        min-height: 800px;
-        background: #fff;
-        width:100%;
-        .cell {
-            float:left;
-            min-height:800px;
-            height:auto;
-            border-radius: 3px;
-            overflow: hidden;
-            box-sizing: border-box;
-            border:1px solid #ccc;
-            .content {
-                padding:20px 10px;
-                box-sizing: border-box;
-                .result-table {
-                    margin-top: 20px;
-                }
-                .pagination-box {
-                    margin-top: 40px;
-                    text-align: center;
-                }
-            }
-            .title {
-                height:40px;
-                background: #409EFF;
-                text-align: center;
-                line-height: 40px;
-                color:#fff;
-            }
-            &.left {
-                width:24%;
-                margin: 0 1%;
-             }
-            &.right {
-                 width:73%;
-                 margin: 0 1% 0 0;
-             }
+  .user-page {
+    min-height: 800px;
+    background: #fff;
+    width: 100%;
+    .cell {
+      float: left;
+      min-height: 800px;
+      height: auto;
+      border-radius: 3px;
+      overflow: hidden;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      .content {
+        padding: 20px 10px;
+        box-sizing: border-box;
+        .result-table {
+          margin-top: 20px;
         }
+        .pagination-box {
+          margin-top: 40px;
+          text-align: center;
+        }
+      }
+      .title {
+        height: 40px;
+        background: #409EFF;
+        text-align: center;
+        line-height: 40px;
+        color: #fff;
+      }
+      &.left {
+        width: 24%;
+        margin: 0 1%;
+      }
+      &.right {
+        width: 73%;
+        margin: 0 1% 0 0;
+      }
     }
+  }
 </style>

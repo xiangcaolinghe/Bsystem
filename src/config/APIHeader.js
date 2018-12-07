@@ -4,8 +4,6 @@ import qs from 'qs'
 class API {
 
   static sigParams(uri,params){
-
-
     if(params) {
       var pa={};
       var  newArr=Object.keys(params).sort();
@@ -37,12 +35,12 @@ class API {
       for(let a in newArr){
         pa[newArr[a]]=headers[newArr[a]];
       }
-      console.log(pa)
+      // console.log(pa)
       // pa['Content-Type'] =  'application/x-www-form-urlencoded;charset=utf-8';
     }else {
       // headers['Content-Type'] =  'application/x-www-form-urlencoded;charset=utf-8';
     }
-    console.log(headers)
+    // console.log(headers)
     return headers;
 
   }
@@ -53,14 +51,17 @@ class API {
     if (!headers) {
       config.headers['Content-Type'] =  'application/x-www-form-urlencoded;charset=utf-8';
     } else {
+
       config.headers=API.sigHeaders(headers)
       config.headers['Content-Type'] =  'application/x-www-form-urlencoded;charset=utf-8';
+
     }
     config.url=uri;
+    // console.log(config)
     return axios.get(uri,config);
   }
 
-  static  delete(){
+  static  delete(uri,params){
     config.params=API.sigParams(uri,params);
     config.url=uri;
     return axios.delete(uri,config);
@@ -69,21 +70,26 @@ class API {
 
   static post(uri,params,headers){
     var data=qs.stringify(params);
-    console.log(data)
     if (!headers) {
       config.headers['Content-Type'] =  'application/x-www-form-urlencoded;charset=utf-8';
     } else {
       config.headers=API.sigHeaders(headers)
       config.headers['Content-Type'] =  'application/x-www-form-urlencoded;charset=utf-8';
     }
-    // config.params=API.sigParams(uri,params);
+    //config.params=API.sigParams(uri,abc);
     return axios.post(uri,data,config);
   }
 
-  static put(uri,params){
-
-    config.params=API.sigParams(uri,params);
-    return axios.put(uri,params,config);
+  static put(uri,params,headers){
+    var data=qs.stringify(params);
+    if (!headers) {
+      config.headers['Content-Type'] =  'application/x-www-form-urlencoded;charset=utf-8';
+    } else {
+      config.headers=API.sigHeaders(headers)
+      config.headers['Content-Type'] =  'application/x-www-form-urlencoded;charset=utf-8';
+    }
+    // config.params=API.sigParams(uri,data);
+    return axios.put(uri,data,config);
   }
 
   static getNonce() {

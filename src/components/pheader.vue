@@ -114,7 +114,7 @@
           isActive:1,
           isLeftActive:1,
           isLeftNav: 1,
-          settingPop:true,
+          settingPop:false,
           choosePop:false,
           activeName: 'first',
           form: {
