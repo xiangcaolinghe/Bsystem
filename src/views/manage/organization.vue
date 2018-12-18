@@ -19,7 +19,7 @@
       </div>
       <div class="content">
         <el-row :gutter="20">
-          <el-col :span="4" class="flex">
+          <el-col :span="4" class="flex btn">
             <el-button type="success" @click="addOrg">添加机构</el-button>
           </el-col>
         </el-row>
@@ -430,6 +430,31 @@
           }
         })
       },
+      // 删除
+      del(id) {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params = {};
+          params['id'] = id;
+          API.delete('/mechanism/delete', params).then((res) => {
+            if (res.data.code == 200) {
+              this.getPage();
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            } else {
+              this.$message({
+                type: 'error',
+                message: '删除失败!'
+              });
+            }
+          })
+        })
+      },
 
       // 翻页器
       handleSizeChange(val) {
@@ -537,6 +562,12 @@
       .content {
         padding: 20px 10px;
         box-sizing: border-box;
+        .btn {
+          button {
+            padding: 10px 15px;
+            font-size: 12px;
+          }
+        }
         .result-table {
           margin-top: 20px;
         }
@@ -553,11 +584,11 @@
         color: #fff;
       }
       &.left {
-        width: 24%;
+        width: 18%;
         margin: 0 1%;
       }
       &.right {
-        width: 73%;
+        width: 79%;
         margin: 0 1% 0 0;
       }
     }

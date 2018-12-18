@@ -62,7 +62,7 @@
                         v-model="search.Name">
               </el-input>
             </el-col>
-            <el-col :span="3" class="flex">
+            <el-col :span="2" class="flex">
               <el-button type="primary" icon="el-icon-search" @click="getSearch">搜索</el-button>
             </el-col>
             <el-col :span="4" class="flex">
@@ -803,8 +803,8 @@
           display: block;
           line-height: 40px;
           font-weight: 600;
-          width: 120px;
-          font-size: 17px;
+          width: 100px;
+          font-size: 14px;
         }
       }
       .result-table {
@@ -871,18 +871,19 @@
         }
       }
       .title {
-        height: 40px;
+        height: 30px;
         background: #409EFF;
         text-align: center;
-        line-height: 40px;
+        line-height: 30px;
         color: #fff;
+        font-size: 13px;
       }
       &.left {
-        width: 24%;
+        width: 18%;
         margin: 0 1%;
       }
       &.right {
-        width: 73%;
+        width: 79%;
         margin: 0 1% 0 0;
       }
     }

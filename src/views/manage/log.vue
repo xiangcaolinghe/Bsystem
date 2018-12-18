@@ -140,12 +140,12 @@
         params['page'] = this.currentPage;
         params['count'] = this.pageSize;
         API.get('/journal/findAll', params).then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             var obj = res.data.data;
             for(var i=0;i<obj.length;i++){
-              console.log(obj[i].createTime)
+              // console.log(obj[i].createTime)
               obj[i].time = obj[i].createTime.replace('T',' ');
             }
             this.tableData = obj;
@@ -201,8 +201,8 @@
           display: block;
           line-height: 40px;
           font-weight: 600;
-          width: 120px;
-          font-size: 17px;
+          width: 100px;
+          font-size: 14px;
         }
       }
       .result-table {

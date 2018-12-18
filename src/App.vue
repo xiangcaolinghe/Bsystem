@@ -25,6 +25,7 @@
 
 <style lang="less">
   @import './assets/styles/base.less';
+  @import './assets/styles/base2.css';
   @import './assets/iconfonts/iconfont.css';
   @import './assets/fontAwesome/css/font-awesome.css';
   @import './assets/styles/header.less';

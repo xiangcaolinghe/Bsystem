@@ -13,14 +13,15 @@
 <style lang="less" scoped>
   .p_footer{
     background-color: #026ab3;
-    height: 100px;
+    height: 35px;
+    line-height: 35px;
     width: 100%;
-    font-size: 24px;
+    font-size: 12px;
     text-align: center;
     color:#fff;
     bottom: 0;
   }
-  .p_footer div{
+  /*.p_footer div{
     padding-top: 40px;
-  }
+  }*/
 </style>

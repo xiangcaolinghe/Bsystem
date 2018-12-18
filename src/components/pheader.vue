@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="p-content">
-        <div class="p-left">
+        <div class="p-left" v-bind:style="{ minHeight: offHeight + 'px' }">
           <div class="p-left-height">
             <div class="nav_left active">
               <div class="slider">
@@ -114,6 +114,7 @@
           isActive:1,
           isLeftActive:1,
           isLeftNav: 1,
+          offHeight: 0,
           settingPop:false,
           choosePop:false,
           activeName: 'first',
@@ -185,6 +186,13 @@
             that.settingPop = false;
           },400)
         }
+      },
+      mounted() {
+        let hei = document.documentElement.clientHeight - 110;
+        // console.log(hei)
+        this.offHeight = hei;
+        // console.log(this.offHeight)
+        // this.getAuto()
       }
     }
 </script>
@@ -217,18 +225,19 @@
     margin: auto;
     .up_nav_content{
       width: 90%;
-      height: 100px;
+      height: 75px;
       overflow: hidden;
-      line-height: 100px;
+      line-height: 75px;
       margin: auto;
       img{
         float: left;
         margin-top: 0.8%;
+        width: 50px;
       }
       .title {
         color:#fff;
         margin-left:8px;
-        font-size: 22px;
+        font-size: 18px;
       }
       .welcome{
         cursor: pointer;
@@ -239,6 +248,7 @@
         }
         strong {
           margin-right: 15px;
+          font-size: 13px;
           &:last-child {
              margin-right: 0;
            }
@@ -247,7 +257,7 @@
     }
   }
   .iconfont {
-    font-size: 22px;
+    font-size: 16px;
   }
   a,a:hover{
     text-decoration:none;
@@ -287,8 +297,9 @@
           }
           li{
             list-style: none;
-            height: 85px;
-            line-height: 85px;
+            height: 65px;
+            line-height: 65px;
+            font-size: 15px;
             .left-cell,.left-cell:hover{
               display: block;
               text-decoration:none;
