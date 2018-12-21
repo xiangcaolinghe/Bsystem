@@ -239,7 +239,7 @@
           name : '',
           url : '',
           icon : '',
-          hide : '',
+          hide : '0',
           permission : '',
           des : ''
         },
@@ -273,13 +273,17 @@
         let params = {};
         params['page'] = this.currentPage;
         params['count'] = this.pageSize;
-        API.get('/menu/findMenuList', params).then((res) => {
+        API.get('/menu/findMenuList', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data.menuList;
             var arr = res.data.data.treeList;
             this.listMenu = this.getOrg(arr);
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -298,11 +302,15 @@
       getAllTreeList(id) {
         let params = {};
         params['id'] = id;
-        API.get('/menu/findChildList', params).then((res) => {
+        API.get('/menu/findChildList', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -319,7 +327,7 @@
           name : '',
           url : '',
           icon : '',
-          hide : '',
+          hide : '0',
           permission : '',
           des : ''
         }
@@ -337,7 +345,7 @@
 
         console.log(params)
 
-        API.post('/menu/addMenuInfo', params).then((res) => {
+        API.post('/menu/addMenuInfo', params,{Authorization:storage.get('token')}).then((res) => {
           if (res.data.code == 200) {
             this.addPop = false;
             this.getPage();
@@ -345,6 +353,10 @@
               type: 'success',
               message: '新增成功!'
             });
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }else {
             this.$message({
               type: 'error',
@@ -367,7 +379,7 @@
         }
         let params = {};
         params['id'] = id;
-        API.get('/menu/findMenuListById', params).then((res) => {
+        API.get('/menu/findMenuListById', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.editObject = res.data.data.menuInfo;
@@ -375,6 +387,10 @@
             this.editObject.pId = res.data.data.menuInfo.pid
             this.editObject.branch = res.data.data.pname
             console.log(this.editObject)
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -389,7 +405,7 @@
         params['des'] = this.editObject.des;
         console.log(params)
         // /menu/updateMenuInfo
-        API.post('/menu/updateMenuInfo', params).then((res) => {
+        API.post('/menu/updateMenuInfo', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.editPop = false;
@@ -398,6 +414,10 @@
               type: 'success',
               message: '编辑成功!'
             });
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }else {
             this.$message({
               type: 'error',
@@ -448,14 +468,18 @@
         }).then(() => {
           let params = {};
           params['id'] = id;
-          API.post('/menu/del', params).then((res) => {
+          API.post('/menu/del', params,{Authorization:storage.get('token')}).then((res) => {
             if (res.data.code == 200) {
               this.getPage();
               this.$message({
                 type: 'success',
                 message: '删除成功!'
               });
-            } else {
+            }else if(res.data.code == 1001){
+              this.signOut()
+            } else if(res.data.code == 401){
+              this.$router.push({name: 'auth'})
+            }else {
               this.$message({
                 type: 'error',
                 message: '删除失败!'
@@ -475,6 +499,18 @@
         this.currentPage = val;
         this.getPage()
       },
+      signOut(){
+        this.$message({
+          type: 'error',
+          message: '登录失效，请重新登录!'
+        });
+        storage.delete('Authorization');
+        storage.delete('userName');
+        storage.delete('auth');
+        storage.delete('token');
+        storage.delete('sysid');
+        this.$router.push({name:'login'})
+      }
     },
     watch: {
       filterText(val) {

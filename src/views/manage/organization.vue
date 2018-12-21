@@ -78,7 +78,7 @@
     <!--添加弹框-->
     <el-dialog title="添加机构" :visible.sync="addPop" class="tip-dialog" :close-on-click-modal="false">
       <div class="pop-content">
-        <el-form ref="addObject" :model="addObject" label-width="100px">
+        <el-form ref="addObject" :model="addObject" label-width="100px" status-icon :rules="rules">
           <el-form-item label="上级机构">
             <div class="el-select" readonly="readonly">
               <div class="el-input el-input--suffix">
@@ -110,8 +110,8 @@
           <el-form-item label="联系地址">
             <el-input v-model="addObject.mAddress"></el-input>
           </el-form-item>
-          <el-form-item label="电话">
-            <el-input v-model="addObject.mPhone"></el-input>
+          <el-form-item label="电话" prop="mPhone">
+            <el-input v-model.number="addObject.mPhone"></el-input>
           </el-form-item>
           <el-form-item label="传真">
             <el-input v-model="addObject.mFax"></el-input>
@@ -123,7 +123,7 @@
             <el-input type="textarea" v-model="addObject.mContent"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="addSave">保存</el-button>
+            <el-button type="primary" @click="addSave('addObject')">保存</el-button>
             <el-button @click="addPop=false">返回</el-button>
           </el-form-item>
         </el-form>
@@ -132,7 +132,7 @@
     <!--编辑弹框-->
     <el-dialog title="编辑机构" :visible.sync="editPop" class="tip-dialog" :close-on-click-modal="false">
       <div class="pop-content">
-        <el-form ref="editObject" :model="editObject" label-width="100px">
+        <el-form ref="editObject" :model="editObject" label-width="100px" status-icon :rules="rules">
           <el-form-item label="上级机构">
             <div class="el-select" readonly="readonly">
               <div class="el-input el-input--suffix">
@@ -164,8 +164,8 @@
           <el-form-item label="联系地址">
             <el-input v-model="editObject.mAddress"></el-input>
           </el-form-item>
-          <el-form-item label="电话">
-            <el-input v-model="editObject.mPhone"></el-input>
+          <el-form-item label="电话" prop="mPhone">
+            <el-input v-model.number="editObject.mPhone"></el-input>
           </el-form-item>
           <el-form-item label="传真">
             <el-input v-model="editObject.mFax"></el-input>
@@ -177,7 +177,7 @@
             <el-input type="textarea" v-model="editObject.mContent"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="editSave">保存</el-button>
+            <el-button type="primary" @click="editSave('editObject')">保存</el-button>
             <el-button @click="editPop=false">返回</el-button>
           </el-form-item>
         </el-form>
@@ -249,8 +249,13 @@
           mFax: '',
           mEmail: '',
           mContent: ''
+        },
+        rules: {
+          mPhone:[
+            { required: true, message: '必填'},
+            { type: 'number', message: '必须为数字值'}
+            ]
         }
-
 
       };
     },
@@ -258,12 +263,16 @@
       //加载所有机构和部门
       getTree(){
         let params = {};
-        API.get('/mechanism/findTreeAll', params).then((res) => {
+        API.get('/mechanism/findTreeAll', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             var arr = res.data.data;
             this.listOrg = this.getOrg(arr)
             console.log(this.listOrg)
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -278,11 +287,15 @@
       getAllTreeList(id){
         let params = {};
         params['id'] = id;
-        API.get('/mechanism/findById', params).then((res) => {
+        API.get('/mechanism/findById', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -295,12 +308,16 @@
         let params = {};
         params['page'] = this.currentPage;
         params['count'] = this.pageSize;
-        API.get('/mechanism/findAll', params).then((res) => {
+        API.get('/mechanism/findAll', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data;
             this.getTree();
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -335,39 +352,49 @@
       },
 
       // 新增保存
-      addSave(){
-        let params = {};
-        params['mId'] = this.OrgId;
-        params['mName'] = this.addObject.mName;
-        params['mCode'] = this.addObject.mCode;
-        params['mType'] = this.addObject.mType;
-        params['mAddress'] = this.addObject.mAddress;
-        params['mPhone'] = this.addObject.mPhone;
-        params['mFax'] = this.addObject.mFax;
-        params['mEmail'] = this.addObject.mEmail;
-        params['mContent'] = this.addObject.mContent;
+      addSave(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let params = {};
+            params['mId'] = this.OrgId;
+            params['mName'] = this.addObject.mName;
+            params['mCode'] = this.addObject.mCode;
+            params['mType'] = this.addObject.mType;
+            params['mAddress'] = this.addObject.mAddress;
+            params['mPhone'] = this.addObject.mPhone;
+            params['mFax'] = this.addObject.mFax;
+            params['mEmail'] = this.addObject.mEmail;
+            params['mContent'] = this.addObject.mContent;
 
-        console.log(params)
+            console.log(params)
 
-        API.post('/mechanism/create', params).then((res) => {
-          if (res.data.code == 200) {
-            this.addPop = false;
-            this.getPage();
-            this.$message({
-              type: 'success',
-              message: '新增成功!'
-            });
-          }else {
-            this.$message({
-              type: 'error',
-              message: '新增失败!'
-            });
+            /*API.post('/mechanism/create', params,{Authorization:storage.get('token')}).then((res) => {
+              if (res.data.code == 200) {
+                this.addPop = false;
+                this.getPage();
+                this.$message({
+                  type: 'success',
+                  message: '新增成功!'
+                });
+              }else if(res.data.code == 1001){
+                this.signOut()
+              }else if(res.data.code == 401){
+                this.$router.push({name: 'auth'})
+              }else {
+                this.$message({
+                  type: 'error',
+                  message: '新增失败!'
+                });
+              }
+            })*/
           }
         })
       },
       // 编辑
       editOpen(id){
-        console.log(id)
+        if(this.$refs.editObject){
+          this.$refs.editObject.clearValidate();
+        }
         this.editPop = true;
         this.getTree();
         this.editObject = {
@@ -384,7 +411,7 @@
         this.OrgName = '';
         let params = {};
         params['id'] = id;
-        API.get('/mechanism/findOneById', params).then((res) => {
+        API.get('/mechanism/findOneById', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.editObject = res.data.data[0];
@@ -394,39 +421,51 @@
             // 机构显示名称
             this.OrgName = obj.superiorName;
             this.OrgId = obj.mid;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
 
       // 编辑保存
-      editSave(){
-        let params = {};
-        params['mId'] = this.OrgId;
-        params['mName'] = this.editObject.mName;
-        params['mCode'] = this.editObject.mCode;
-        params['mType'] = this.editObject.mType;
-        params['mAddress'] = this.editObject.mAddress;
-        params['mPhone'] = this.editObject.mPhone;
-        params['mFax'] = this.editObject.mFax;
-        params['mEmail'] = this.editObject.mEmail;
-        params['mContent'] = this.editObject.mContent;
+      editSave(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let params = {};
+            params['mId'] = this.OrgId;
+            params['mName'] = this.editObject.mName;
+            params['mCode'] = this.editObject.mCode;
+            params['mType'] = this.editObject.mType;
+            params['mAddress'] = this.editObject.mAddress;
+            params['mPhone'] = this.editObject.mPhone;
+            params['mFax'] = this.editObject.mFax;
+            params['mEmail'] = this.editObject.mEmail;
+            params['mContent'] = this.editObject.mContent;
 
-        console.log(params)
+            console.log(params)
 
-        API.put('/mechanism/update', params).then((res) => {
-          console.log(res.data)
-          if (res.data.code == 200) {
-            this.editPop = false;
-            this.getPage();
-            this.$message({
-              type: 'success',
-              message: '编辑成功!'
-            });
-          }else {
-            this.$message({
-              type: 'error',
-              message: '编辑失败!'
-            });
+            API.put('/mechanism/update', params,{Authorization:storage.get('token')}).then((res) => {
+              console.log(res.data)
+              if (res.data.code == 200) {
+                this.editPop = false;
+                this.getPage();
+                this.$message({
+                  type: 'success',
+                  message: '编辑成功!'
+                });
+              }else if(res.data.code == 1001){
+                this.signOut()
+              }else if(res.data.code == 401){
+                this.$router.push({name: 'auth'})
+              }else {
+                this.$message({
+                  type: 'error',
+                  message: '编辑失败!'
+                });
+              }
+            })
           }
         })
       },
@@ -439,14 +478,18 @@
         }).then(() => {
           let params = {};
           params['id'] = id;
-          API.delete('/mechanism/delete', params).then((res) => {
+          API.delete('/mechanism/delete', params,{Authorization:storage.get('token')}).then((res) => {
             if (res.data.code == 200) {
               this.getPage();
               this.$message({
                 type: 'success',
                 message: '删除成功!'
               });
-            } else {
+            } else if(res.data.code == 1001){
+              this.signOut()
+            }else if(res.data.code == 401){
+              this.$router.push({name: 'auth'})
+            }else {
               this.$message({
                 type: 'error',
                 message: '删除失败!'
@@ -477,7 +520,18 @@
 
 
       chooseBranchPop(){},
-
+      signOut(){
+        this.$message({
+          type: 'error',
+          message: '登录失效，请重新登录!'
+        });
+        storage.delete('Authorization');
+        storage.delete('userName');
+        storage.delete('auth');
+        storage.delete('token');
+        storage.delete('sysid');
+        this.$router.push({name:'login'})
+      }
     },
     watch: {
       filterText(val) {

@@ -12,7 +12,34 @@ window.API = API;
 Vue.config.productionTip = false
 const storage = new LocalStorageUtils();
 window.storage = storage;
-
+router.beforeEach(function (to, from, next) {
+  // loadingInstance = Loading.service({ fullscreen: true,background:'rgba(0,0,0,.5)' });
+  let meta = to.meta.auth;
+  let name = to.name;
+  let token = storage.get('token');
+  if (name == 'login') {
+    next()
+    return
+  }
+  if (meta) {
+    // next()
+    if (token == null) {
+      next({name:'login'})
+      return
+    }
+    next()
+  }else {
+    next()
+  }
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})
+router.afterEach(function (to) {
+  // loadingInstance.close();
+  // store.commit('updateLoadingStatus', {isLoading: false})
+})
 new Vue({
   el: '#app',
   router,

@@ -333,24 +333,32 @@
         let params = {};
         params['page'] = this.currentPage;
         params['count'] = this.pageSize;
-        API.get('/role/showRoleList', params).then((res) => {
+        API.get('/role/showRoleList', params,{Authorization:storage.get('token')}).then((res) => {
           // console.log(res.data)
           if (res.data.code == 200) {
             var obj = JSON.parse(res.data.data)
             // console.log(obj)
             this.total = obj.count;
             this.tableData = obj.data;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
       //用户树
       getTree() {
         let params = {};
-        API.get('/menu/findMenuList', params).then((res) => {
+        API.get('/menu/findMenuList', params,{Authorization:storage.get('token')}).then((res) => {
           // console.log(res.data)
           if (res.data.code == 200) {
             var arr = res.data.data.treeList;
             this.listMenu = this.getOrg(arr);
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -368,12 +376,16 @@
       //加载归属机构
       getAffiliate() {
         let params = {};
-        API.get('/user/findMechanismAndRole', params).then((res) => {
+        API.get('/user/findMechanismAndRole', params,{Authorization:storage.get('token')}).then((res) => {
           // console.log(res.data)
           if (res.data.code == 200) {
             var arr = res.data.data.mechanismAll;
             // console.log(arr)
             this.OrgOpt = arr;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -395,7 +407,7 @@
         params['menus'] = this.menus.join(',');
         params['desc'] = this.addObject.desc;
         console.log(params)
-        API.post('/role/addRole', params).then((res) => {
+        API.post('/role/addRole', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.addPop = false;
@@ -404,6 +416,10 @@
               type: 'success',
               message: '新增成功!'
             });
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           } else {
             this.$message({
               type: 'error',
@@ -427,7 +443,7 @@
         this.mechanismId = ''
         let params = {};
         params['id'] = id;
-        API.get('/role/findRoleById', params).then((res) => {
+        API.get('/role/findRoleById', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.editObject = res.data.data.roleInfo;
@@ -442,6 +458,10 @@
               }
               this.$refs.Tree.setCheckedKeys(arr2);
             }
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -454,7 +474,7 @@
         params['menus'] = this.menus.join(',');
         params['desc'] = this.editObject.desc;
         console.log(params)
-        API.post('/role/updateRole', params).then((res) => {
+        API.post('/role/updateRole', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.editPop = false;
@@ -463,7 +483,11 @@
               type: 'success',
               message: '修改成功!'
             });
-          } else {
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
+          } else if(res.data.code == 1001){
+            this.signOut()
+          }else {
             this.$message({
               type: 'error',
               message: '修改失败!'
@@ -491,13 +515,17 @@
         }).then(() => {
           let params = {};
           params['id'] = id;
-          API.post('/role/del', params).then((res) => {
+          API.post('/role/del', params,{Authorization:storage.get('token')}).then((res) => {
             if (res.data.code == 200) {
               this.getPage();
               this.$message({
                 type: 'success',
                 message: '删除成功!'
               });
+            }else if(res.data.code == 401){
+              this.$router.push({name: 'auth'})
+            } else if(res.data.code == 1001){
+              this.signOut()
             } else if (res.data.code == 10013) {
               this.$message({
                 type: 'error',
@@ -521,7 +549,7 @@
         this.roleId = id;
         let params = {};
         params['RoleId'] = id;
-        API.get('/user/findByRoleId', params).then((res) => {
+        API.get('/user/findByRoleId', params,{Authorization:storage.get('token')}).then((res) => {
           // console.log(res.data)
           if (res.data.code == 200) {
             if(res.data.data){
@@ -532,7 +560,11 @@
                 this.arrXZ.push(this.fptableData[i].id)
               }
             }
-          }
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }/*else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
+          }*/
         })
       },
       // 分配按钮点击
@@ -544,11 +576,15 @@
       //加载所有机构和部门
       getTree2(){
         let params = {};
-        API.get('/mechanism/findTreeAll', params).then((res) => {
+        API.get('/mechanism/findTreeAll', params,{Authorization:storage.get('token')}).then((res) => {
           // console.log(res.data)
           if (res.data.code == 200) {
             var arr = res.data.data;
             this.listOrg = this.getOrg2(arr)
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -571,24 +607,32 @@
           let params = {};
           params['MechanismId'] = val.id;
           params['userId'] = this.arrXZ.join(',');
-          API.get('/user/findUserByMechanismId', params).then((res) => {
+          API.get('/user/findUserByMechanismId', params,{Authorization:storage.get('token')}).then((res) => {
             // console.log(res.data)
             if (res.data.code == 200) {
               if(res.data.data){
                 this.userData = this.getStaff(res.data.data);
               }
+            }else if(res.data.code == 1001){
+              this.signOut()
+            }else if(res.data.code == 401){
+              this.$router.push({name: 'auth'})
             }
           })
         }else {
           let params = {};
           params['DepartmentId'] = val.id;
           params['userId'] = this.arrXZ.join(',');
-          API.get('/user/findUserByDepartmentId', params).then((res) => {
+          API.get('/user/findUserByDepartmentId', params,{Authorization:storage.get('token')}).then((res) => {
             // console.log(res.data)
             if (res.data.code == 200) {
               if(res.data.data){
                 this.userData = this.getStaff(res.data.data);
               }
+            }else if(res.data.code == 1001){
+              this.signOut()
+            }else if(res.data.code == 401){
+              this.$router.push({name: 'auth'})
             }
           })
         }
@@ -631,16 +675,20 @@
         params['userIds'] = arr.join(',');
         params['roleId'] = this.roleId;
         console.log(params)
-        API.post('/userRole/create', params).then((res) => {
+        API.post('/userRole/create', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.assignRoleDetailPop = false;
             this.$message({
               type: 'success',
-              message: '分配成功!'
+              message: '分配成功，需重新登录才起效!'
             });
             this.assignRolePop = true;
             this.allotOpen(this.roleId,this.fpName,this.fpJg)
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }else {
             this.$message({
               type: 'error',
@@ -683,7 +731,7 @@
           params['userId'] = id;
           params['roleId'] = this.roleId;
           console.log(params)
-          API.delete('/userRole/delete', params).then((res) => {
+          API.delete('/userRole/delete', params,{Authorization:storage.get('token')}).then((res) => {
             if (res.data.code == 200) {
               this.assignRolePop = true;
               this.allotOpen(this.roleId,this.fpName,this.fpJg)
@@ -691,7 +739,11 @@
                 type: 'success',
                 message: '删除成功!'
               });
-            } else if (res.data.code == 10013) {
+            } else if(res.data.code == 1001){
+              this.signOut()
+            }else if(res.data.code == 401){
+              this.$router.push({name: 'auth'})
+            }else if (res.data.code == 10013) {
               this.$message({
                 type: 'error',
                 message: '有权限不可删除!'
@@ -724,6 +776,18 @@
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
       },
+      signOut(){
+        this.$message({
+          type: 'error',
+          message: '登录失效，请重新登录!'
+        });
+        storage.delete('Authorization');
+        storage.delete('userName');
+        storage.delete('auth');
+        storage.delete('token');
+        storage.delete('sysid');
+        this.$router.push({name:'login'})
+      }
 
     },
     watch: {

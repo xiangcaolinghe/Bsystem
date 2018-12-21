@@ -232,6 +232,9 @@
           <el-form-item label="登陆名" prop="uname">
             <el-input v-model="editObject.uname"></el-input>
           </el-form-item>
+          <el-form-item label="重置密码">
+            <el-input v-model="editObject.ResetPasswd"></el-input>
+          </el-form-item>
           <el-form-item label="邮箱" prop="uemail">
             <el-input v-model="editObject.uemail"></el-input>
           </el-form-item>
@@ -357,7 +360,8 @@
           utelephone: '',
           umobilephone: '',
           urole: [],
-          ucontent: ''
+          ucontent: '',
+          ResetPasswd : ''
         },
         tableData: [],
         rules: {
@@ -406,7 +410,7 @@
       //加载所有机构和部门
       getTree(){
         let params = {};
-        API.get('/mechanism/findTreeAll', params).then((res) => {
+        API.get('/mechanism/findTreeAll', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             var arr = res.data.data;
@@ -419,6 +423,10 @@
             }
             console.log(arr)
             this.listOrgArr = arr;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -436,11 +444,15 @@
           params['uDepartment'] ='';
           params['uName'] = '';
           params['uUsername'] = '';
-          API.get('/user/findByName', params).then((res) => {
+          API.get('/user/findByName', params,{Authorization:storage.get('token')}).then((res) => {
             console.log(res.data)
             if (res.data.code == 200) {
               this.total = res.data.count;
               this.tableData = res.data.data;
+            }else if(res.data.code == 1001){
+              this.signOut()
+            }else if(res.data.code == 401){
+              this.$router.push({name: 'auth'})
             }
           })
         }else {
@@ -449,11 +461,15 @@
           params['uDepartment'] = data.id;
           params['uName'] = '';
           params['uUsername'] = '';
-          API.get('/user/findByName', params).then((res) => {
+          API.get('/user/findByName', params,{Authorization:storage.get('token')}).then((res) => {
             console.log(res.data)
             if (res.data.code == 200) {
               this.total = res.data.count;
               this.tableData = res.data.data;
+            }else if(res.data.code == 1001){
+              this.signOut()
+            }else if(res.data.code == 401){
+              this.$router.push({name: 'auth'})
             }
           })
         }
@@ -462,7 +478,7 @@
       //加载归属机构
       getAffiliate() {
         let params = {};
-        API.get('/user/findMechanismAndRole', params).then((res) => {
+        API.get('/user/findMechanismAndRole', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             var arr = res.data.data.mechanismAll;
@@ -471,6 +487,10 @@
             this.OrgOpt = arr;
             console.log(role)
             this.power = role;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -478,13 +498,17 @@
       getDepartment(id){
         let params = {};
         params['id'] = id;
-        API.get('/mechanism/findById', params).then((res) => {
+        API.get('/mechanism/findById', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             var arr = res.data.data;
             this.listOrg = this.getOrg(arr)
             console.log(this.listOrg)
-          }
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }/*else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
+          }*/
         })
       },
       // 转换树结构
@@ -503,11 +527,15 @@
         let params = {};
         params['page'] = this.currentPage;
         params['count'] = this.pageSize;
-        API.get('/user/findAll', params).then((res) => {
+        API.get('/user/findAll', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -519,11 +547,15 @@
         params['uName'] = this.search.loginName;
         params['uUsername'] = this.search.Name;
         console.log(params)
-        API.get('/user/findByName', params).then((res) => {
+        API.get('/user/findByName', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -549,6 +581,7 @@
         }
         this.udepartmentName = '';
         this.udepartmentId = '';
+        this.checkedRole = [];
         this.listOrg = [];
         if(this.$refs.addObject){
           this.$refs.addObject.clearValidate();
@@ -576,7 +609,7 @@
               params['uContent'] = this.addObject.ucontent;
 
               console.log(params)
-              API.post('/user/create', params).then((res) => {
+              API.post('/user/create', params,{Authorization:storage.get('token')}).then((res) => {
                 if (res.data.code == 200) {
                   this.addPop = false;
                   this.getPage();
@@ -584,10 +617,14 @@
                     type: 'success',
                     message: '新增成功!'
                   });
+                }else if(res.data.code == 1001){
+                  this.signOut()
+                }else if(res.data.code == 401){
+                  this.$router.push({name: 'auth'})
                 }else {
                   this.$message({
                     type: 'error',
-                    message: '新增失败!'
+                    message: res.data.message
                   });
                 }
               })
@@ -622,14 +659,15 @@
           utelephone: '',
           umobilephone: '',
           urole: [],
-          ucontent: ''
+          ucontent: '',
+          ResetPasswd :''
         }
         this.udepartmentName = '';
         this.udepartmentId = '';
         this.listOrg = [];
         let params = {};
         params['id'] = id;
-        API.get('/user/findById', params).then((res) => {
+        API.get('/user/findById', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.editObject = res.data.data;
@@ -658,6 +696,10 @@
             this.udepartmentName = obj.udepartmentName;
             this.udepartmentId = obj.udepartmentId;
             this.editObject.urole = obj.uroleId.split(',');
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -671,7 +713,7 @@
               params['uDepartment'] = this.udepartmentId;
               params['uUsername'] = this.editObject.uusername;
               params['uName'] = this.editObject.uname;
-              // params['uPasswd'] = this.editObject.upasswd;
+              params['uPasswd'] = this.editObject.ResetPasswd;
               // params['confirmPas'] = this.editObject.confirmPas;
               params['uEmail'] = this.editObject.uemail;
               params['uTelephone'] = this.editObject.utelephone;
@@ -680,7 +722,7 @@
               params['uContent'] = this.editObject.ucontent;
 
               console.log(params)
-              API.post('/user/update', params).then((res) => {
+              API.post('/user/update', params,{Authorization:storage.get('token')}).then((res) => {
                 console.log(res.data)
                 if (res.data.code == 200) {
                   this.editPop = false;
@@ -689,6 +731,10 @@
                     type: 'success',
                     message: '编辑成功!'
                   });
+                }else if(res.data.code == 1001){
+                  this.signOut()
+                }else if(res.data.code == 401){
+                  this.$router.push({name: 'auth'})
                 }else {
                   this.$message({
                     type: 'error',
@@ -724,7 +770,7 @@
         }).then(() => {
           let params = {};
           params['id'] = id;
-          API.delete('/user/delete', params).then((res) => {
+          API.delete('/user/delete', params,{Authorization:storage.get('token')}).then((res) => {
             if (res.data.code == 200) {
               this.getPage();
               this.$message({
@@ -733,7 +779,9 @@
               });
             } else if(res.data.code == 1001){
               this.signOut()
-            } else {
+            } else if(res.data.code == 401){
+              this.$router.push({name: 'auth'})
+            }else {
               this.$message({
                 type: 'error',
                 message: '删除失败!'
@@ -775,7 +823,18 @@
         this.getPage()
       },
 
-
+      signOut(){
+        this.$message({
+          type: 'error',
+          message: '登录失效，请重新登录!'
+        });
+        storage.delete('Authorization');
+        storage.delete('userName');
+        storage.delete('auth');
+        storage.delete('token');
+        storage.delete('sysid');
+        this.$router.push({name:'login'})
+      }
 
 
     },

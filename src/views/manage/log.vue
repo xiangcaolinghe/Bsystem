@@ -139,8 +139,8 @@
         let params = {};
         params['page'] = this.currentPage;
         params['count'] = this.pageSize;
-        API.get('/journal/findAll', params).then((res) => {
-          // console.log(res.data)
+        API.get('/journal/findAll', params,{Authorization:storage.get('token')}).then((res) => {
+          console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             var obj = res.data.data;
@@ -149,6 +149,10 @@
               obj[i].time = obj[i].createTime.replace('T',' ');
             }
             this.tableData = obj;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -165,11 +169,19 @@
         params['abnormal'] = this.search.normal;
         console.log(params)
 
-        API.get('/journal/findByCondition', params).then((res) => {
+        API.get('/journal/findByCondition', params,{Authorization:storage.get('token')}).then((res) => {
           console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
-            this.tableData = res.data.data;
+            var obj = res.data.data;
+            for(var i=0;i<obj.length;i++){
+              obj[i].time = obj[i].createTime.replace('T',' ');
+            }
+            this.tableData = obj;
+          }else if(res.data.code == 1001){
+            this.signOut()
+          }else if(res.data.code == 401){
+            this.$router.push({name: 'auth'})
           }
         })
       },
@@ -184,6 +196,18 @@
         this.currentPage = val;
         this.getPage()
       },
+      signOut(){
+        this.$message({
+          type: 'error',
+          message: '登录失效，请重新登录!'
+        });
+        storage.delete('Authorization');
+        storage.delete('userName');
+        storage.delete('auth');
+        storage.delete('token');
+        storage.delete('sysid');
+        this.$router.push({name:'login'})
+      }
     },
     created() {
       this.getPage();

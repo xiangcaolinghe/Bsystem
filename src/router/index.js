@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/views/login/index'
-// 班机航线平台
+import Index from '@/views/manage/index'
+import Auth from '@/views/manage/auth'
+
+import Platform from '@/views/manage/app'
 import PlatformLog from '@/views/manage/log'
 import PlatformMenu from '@/views/manage/menu'
 import PlatformOrg from '@/views/manage/organization'
@@ -15,32 +18,80 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
-    },
-    {
-      path: '/log',
-      name: 'platform.log',
-      component: PlatformLog
-    },
-    {
-      path: '/menu',
-      name: 'platform.menu',
-      component: PlatformMenu
-    },
-    {
-      path: '/org',
-      name: 'platform.org',
-      component: PlatformOrg
-    },
-    {
-      path: '/role',
-      name: 'platform.role',
-      component: PlatformRole
+      component: Login,
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/',
-      name: 'platform.user',
-      component: PlatformUser
-    }
+      name: 'home',
+      component: Platform,
+      redirect: '/index',
+      meta: {
+        auth: true,
+        hideLeft: true
+      },
+      children:[
+        {
+          path: '/index',
+          name: 'platform.index',
+          component: Index,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/log',
+          name: 'platform.log',
+          component: PlatformLog,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/menu',
+          name: 'platform.menu',
+          component: PlatformMenu,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/org',
+          name: 'platform.org',
+          component: PlatformOrg,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/role',
+          name: 'platform.role',
+          component: PlatformRole,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/user',
+          name: 'platform.user',
+          component: PlatformUser,
+          meta: {
+            auth: true
+          }
+        }
+      ]
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: Auth,
+      meta: {
+        auth: true,
+      },
+    },
+
+
   ]
 })

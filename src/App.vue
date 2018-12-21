@@ -1,25 +1,18 @@
 <template>
-  <div>
-    <p-header>
-      <div slot="right-view">
-        <router-view/>
-      </div>
-    </p-header>
-    <div class="footer">
-      <p-footer></p-footer>
-    </div>
+  <div id="app">
+    <router-view/>
   </div>
 </template>
 
 <script>
-  import PHeader from './components/pheader.vue'
-  import PFooter from './components/pfooter.vue'
   export default {
-    name: '',
-    components:{ PHeader,PFooter },
+    name: 'App',
+    components:{  },
     created() {
 
-    }
+
+    },
+
   }
 </script>
 
@@ -34,6 +27,6 @@
   font-family: "Microsoft YaHei","Arial","黑体","宋体",sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /*text-align: center;*/
 }
 </style>
