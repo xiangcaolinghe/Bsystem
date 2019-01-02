@@ -7,14 +7,10 @@ export default {
 
   url: '',
   //测试环境
-  // baseURL: 'http://47.93.186.82:8880',
-  //正式环境
-  // baseURL: 'http://39.106.59.115:8870',
-  // baseURL: 'http://192.168.1.144:8880',
-  // baseURL: 'http://192.168.1.201:8880',
-  // baseURL: 'http://47.93.186.82:8883',
   baseURL: 'http://192.168.3.41:8084',
-  // baseUrl:"http://172.17.46.37:8080",
+  //baseURL: 'http://192.168.241.35:8084',
+  //正式环境
+  // baseURL: 'http://10.0.56.7:8084',
   secret: '888A9AE0E1EEE6A7421D7C8774BD41FC',
   passwordsecret: '*975b99fe*15c9*4341*b21a*f355926ded00',
 
@@ -64,8 +60,7 @@ export default {
   maxContentLength: 2000,
 
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-    // 'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryrGKCBY7qhFd3TrwA',
+    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
   },
 
   validateStatus: function (status) {

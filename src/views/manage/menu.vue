@@ -2,7 +2,7 @@
   <div class="menu-page">
     <div class="left cell">
       <div class="title">
-        组织机构
+        菜单管理
       </div>
       <div class="content">
         <el-tree
@@ -36,12 +36,12 @@
             <el-table-column
               prop="url"
               label="链接"
-              width="120">
+              >
             </el-table-column>
             <el-table-column
               prop="hide"
               label="可见"
-              width="120">
+              width="140">
               <template slot-scope="scope">
                 <span v-if="scope.row.hide=='0'">显示</span>
                 <span v-if="scope.row.hide=='1'">隐藏</span>
@@ -49,11 +49,12 @@
             </el-table-column>
             <el-table-column
               prop="permission"
-              label="权限标识">
+              label="权限标识"
+              width="240">
             </el-table-column>
             <el-table-column
               label="操作"
-              width="100">
+              width="140">
               <template slot-scope="scope">
                 <el-button @click="editOpen(scope.row.id)" type="text" size="small">修改</el-button>
                 <el-button @click="del(scope.row.id)" type="text" size="small">删除</el-button>
@@ -97,7 +98,7 @@
           </el-form-item>
           <el-form-item label="链接">
             <el-input v-model="addObject.url"></el-input>
-            <span>点击菜单跳转的页面</span>
+            <span>点击菜单跳转的页面，如/quarterly/handle/replyExport</span>
           </el-form-item>
           <el-form-item label="图标">
             <i class="fa" :class="addObject.icon">{{addObject.icon}}</i>
@@ -112,7 +113,7 @@
           </el-form-item>
           <el-form-item label="权限标识">
             <el-input v-model="addObject.permission"></el-input>
-            <span>控制器中定义的权限标识，如：@RequiresPermissions("权限标识")</span>
+            <span>控制器中定义的权限标识，如：replyExport</span>
           </el-form-item>
           <el-form-item label="备注">
             <el-input type="textarea" v-model="addObject.des"></el-input>
@@ -147,7 +148,7 @@
           </el-form-item>
           <el-form-item label="链接">
             <el-input v-model="editObject.url"></el-input>
-            <span>点击菜单跳转的页面</span>
+            <span>点击菜单跳转的页面，如/quarterly/handle/replyExport</span>
           </el-form-item>
           <el-form-item label="图标">
             <i class="fa" :class="editObject.icon">{{editObject.icon}}</i>
@@ -162,7 +163,7 @@
           </el-form-item>
           <el-form-item label="权限标识">
             <el-input v-model="editObject.permission"></el-input>
-            <span>控制器中定义的权限标识，如：@RequiresPermissions("权限标识")</span>
+            <span>控制器中定义的权限标识，如：replyExport</span>
           </el-form-item>
           <el-form-item label="备注">
             <el-input type="textarea" v-model="editObject.des"></el-input>
@@ -190,7 +191,7 @@
       </div>
     </el-dialog>
     <!--选择部门弹层-->
-    <el-dialog title="选择部门" :visible.sync="chooseBranchPop" class="choose-branch-pop" :close-on-click-modal="false">
+    <el-dialog title="选择菜单" :visible.sync="chooseBranchPop" class="choose-branch-pop" :close-on-click-modal="false">
       <div class="pop-content">
         <el-input
           placeholder="输入关键字进行过滤"
@@ -201,7 +202,6 @@
           class="filter-tree"
           :data="listMenu"
           :props="defaultProps"
-          default-expand-all
           :filter-node-method="filterNode"
           ref="filterTree"
           :default-expand-all="true"
@@ -251,7 +251,8 @@
           icon : '',
           hide : '',
           permission : '',
-          des : ''
+          des : '',
+          sId:''
         },
         // 上级菜单标题和id
         middleChooseId :'',
@@ -274,7 +275,7 @@
         params['page'] = this.currentPage;
         params['count'] = this.pageSize;
         API.get('/menu/findMenuList', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          //console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data.menuList;
@@ -303,7 +304,7 @@
         let params = {};
         params['id'] = id;
         API.get('/menu/findChildList', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          //console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data;
@@ -315,7 +316,7 @@
         })
       },
       handleNodeClick(data) {
-        console.log(data.label);
+        //console.log(data.label);
         this.getAllTreeList(data.id)
       },
       // 新增
@@ -343,9 +344,10 @@
         params['permission'] = this.addObject.permission;
         params['des'] = this.addObject.des;
 
-        console.log(params)
+        //console.log(params)
 
         API.post('/menu/addMenuInfo', params,{Authorization:storage.get('token')}).then((res) => {
+          //console.log(res.data)
           if (res.data.code == 200) {
             this.addPop = false;
             this.getPage();
@@ -375,18 +377,20 @@
           icon : '',
           hide : '',
           permission : '',
-          des : ''
+          des : '',
+          sId:''
         }
         let params = {};
         params['id'] = id;
         API.get('/menu/findMenuListById', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          //console.log(res.data)
           if (res.data.code == 200) {
             this.editObject = res.data.data.menuInfo;
             this.editObject.hide = String(res.data.data.menuInfo.hide)
             this.editObject.pId = res.data.data.menuInfo.pid
+            this.editObject.sId = res.data.data.menuInfo.id
             this.editObject.branch = res.data.data.pname
-            console.log(this.editObject)
+            //console.log(this.editObject)
           }else if(res.data.code == 1001){
             this.signOut()
           }else if(res.data.code == 401){
@@ -396,6 +400,7 @@
       },
       editSave(){
         let params = {};
+        params['sId'] = this.editObject.sId;
         params['pId'] = this.editObject.pId;
         params['name'] = this.editObject.name;
         params['url'] = this.editObject.url;
@@ -403,10 +408,10 @@
         params['hide'] = this.editObject.hide;
         params['permission'] = this.editObject.permission;
         params['des'] = this.editObject.des;
-        console.log(params)
+        //console.log(params)
         // /menu/updateMenuInfo
         API.post('/menu/updateMenuInfo', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          //console.log(res.data)
           if (res.data.code == 200) {
             this.editPop = false;
             this.getPage();
@@ -442,7 +447,7 @@
       },
       // 选择上级菜单
       chooseNodeClick(data) {
-        console.log(data)
+        //console.log(data)
         this.middleChooseBranch = data.label
         this.middleChooseId = data.id
       },
@@ -482,7 +487,7 @@
             }else {
               this.$message({
                 type: 'error',
-                message: '删除失败!'
+                message: '删除失败!' + res.data.message
               });
             }
           })
@@ -490,12 +495,12 @@
       },
       // 翻页器
       handleSizeChange(val) {
-        console.log(val);
+        //console.log(val);
         this.pageSize = val;
         this.getPage();
       },
       handleCurrentChange(val) {
-        console.log(val);
+        //console.log(val);
         this.currentPage = val;
         this.getPage()
       },
@@ -505,10 +510,9 @@
           message: '登录失效，请重新登录!'
         });
         storage.delete('Authorization');
-        storage.delete('userName');
         storage.delete('auth');
         storage.delete('token');
-        storage.delete('sysid');
+        storage.delete('user');
         this.$router.push({name:'login'})
       }
     },
@@ -595,7 +599,7 @@
         margin: 15vh auto !important;
         width: 400px;
         .pop-content {
-          height: 600px;
+          min-height: 280px;
         }
       }
     }
@@ -612,7 +616,7 @@
         margin: 15vh auto !important;
         width: 1000px;
         .pop-content {
-          height: 600px;
+          min-height: 280px;
         }
       }
     }
@@ -657,18 +661,18 @@
       }
       .title {
         height: 40px;
-        background: #409EFF;
+        background: #026ab3;
         text-align: center;
         line-height: 40px;
         color: #fff;
       }
       &.left {
         width: 18%;
-        margin: 0 1%;
+        margin: 20px 1%;
       }
       &.right {
         width: 79%;
-        margin: 0 1% 0 0;
+        margin: 20px 1% 0 0;
       }
     }
   }

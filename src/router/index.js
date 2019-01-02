@@ -13,9 +13,11 @@ import PlatformUser from '@/views/manage/user'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  base: "/",
+  // mode: 'history',
   routes: [
     {
+      // base: "/login/",
       path: '/login',
       name: 'login',
       component: Login,

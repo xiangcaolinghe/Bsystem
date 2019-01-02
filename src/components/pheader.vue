@@ -4,11 +4,11 @@
       <div class="up_nav_content">
         <span>
           <img src="./../assets/logo.png" alt="">
-          <span class="title">综合业务管理系统</span>
+          <span class="title">空域中心业务系统用户管理</span>
         </span>
         <span class="welcome">
             <i class="iconfont icon-yonghu"></i><strong>{{userName}}</strong>
-            <i class="icon iconfont icon-shenqing"></i><strong @click="settingClick">设置</strong>
+            <!--<i class="icon iconfont icon-shenqing"></i><strong @click="settingClick">设置</strong>-->
             <i class="iconfont icon-tuichu-copy"></i><strong @click="quit">退出</strong>
         </span>
       </div>
@@ -19,13 +19,6 @@
           <div class="nav_left active">
             <div class="slider">
               <ul>
-                <li>
-                  <router-link :to="{name:'platform.index'}"
-                               class="left-cell"
-                               :class="{active: $route.name == 'platform.index'}">
-                    <i class="icon iconfont icon-xinwen"></i>首页
-                  </router-link>
-                </li>
                 <li v-show="userS">
                   <router-link
                     :to="{name:'platform.user'}"
@@ -62,6 +55,13 @@
                     class="left-cell"><i class="icon iconfont icon-youjiantou"></i>日志查询
                   </router-link>
                 </li>
+                <li>
+                  <router-link :to="{name:'platform.index'}"
+                               class="left-cell"
+                               :class="{active: $route.name == 'platform.index'}">
+                    <i class="icon iconfont icon-xinwen"></i>个人信息
+                  </router-link>
+                </li>
               </ul>
             </div>
           </div>
@@ -72,57 +72,31 @@
         <slot name="right-view"></slot>
       </div>
     </div>
-    <!--设置-->
-    <el-dialog title="设置" :visible.sync="settingPop" class="tip-dialog setting-pop" :close-on-click-modal="false">
-      <div class="pop-content">
-        <el-tabs v-model="activeName" type="card" @tab-click="settingUserClick">
-          <el-tab-pane label="个人信息修改" name="first">
-            <el-form ref="form" :model="form" label-width="80px">
-              <el-form-item label="工号:">
-                <el-input v-model="form.num"></el-input>
-              </el-form-item>
-              <el-form-item label="姓名:">
-                <el-input v-model="form.name"></el-input>
-              </el-form-item>
-              <el-form-item label="登陆名:">
-                <el-input v-model="form.loginName"></el-input>
-              </el-form-item>
-              <el-form-item label="邮箱:">
-                <el-input v-model="form.mail"></el-input>
-              </el-form-item>
-              <el-form-item label="电话:">
-                <el-input v-model="form.tel"></el-input>
-              </el-form-item>
-              <el-form-item label="手机:">
-                <el-input v-model="form.phone"></el-input>
-              </el-form-item>
-              <!--编辑-->
-              <el-form-item>
-                <el-button type="primary" @click="onSubmitInfo">保存</el-button>
-                <el-button @click="settingPop = false">返回</el-button>
-              </el-form-item>
-            </el-form>
-          </el-tab-pane>
-          <el-tab-pane label="密码修改" name="second" class="password-cell">
-            <el-form ref="form" :model="form" label-width="100px">
-              <el-form-item label="原密码:">
-                <el-input v-model="form.num"></el-input>
-              </el-form-item>
-              <el-form-item label="新密码:">
-                <el-input v-model="form.name"></el-input>
-              </el-form-item>
-              <el-form-item label="新密码确认:">
-                <el-input v-model="form.loginName"></el-input>
-              </el-form-item>
-              <!--编辑-->
-              <el-form-item>
-                <el-button type="primary" @click="onSubmitPassword">保存</el-button>
-                <el-button @click="settingPop = false">返回</el-button>
-              </el-form-item>
-            </el-form>
-          </el-tab-pane>
-        </el-tabs>
-      </div>
+    <el-dialog
+      title="手机验证"
+      :visible.sync="PhoneDia"
+      width="25%"
+      :show-close="false"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false">
+      <el-form ref="form" :model="form" label-width="70px">
+        <el-form-item label="手机号:">
+          <el-col :span="16"><el-input v-model="form.num"></el-input></el-col>
+          <el-col :span="8"></el-col>
+        </el-form-item>
+
+        <el-form-item label="验证码:">
+          <el-col :span="16"><el-input v-model="form.name"></el-input></el-col>
+          <el-col :span="8"><el-button v-bind:disabled="code" @click="Countdown">获取验证码{{auth_time}}</el-button></el-col>
+
+
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
     </el-dialog>
   </div>
 </template>
@@ -132,6 +106,10 @@
     name: 'PHeader',
     data() {
       return {
+        edit:false,
+        code:false,
+        auth_time:'',
+        PhoneDia:false,
         userS: false,
         orgS: false,
         menuS: false,
@@ -143,7 +121,7 @@
         settingPop: false,
         choosePop: false,
         activeName: 'first',
-        userName: storage.get('userName'),
+        userName: storage.getJson('user').uName,
         form: {
           branch: '',
           num: '',
@@ -179,9 +157,21 @@
       }
     },
     methods: {
+      Countdown(){
+        this.code = true;
+        this.auth_time = 60;
+        var auth_timetimer =  setInterval(()=>{
+          this.auth_time--;
+          if(this.auth_time<=0){
+            this.auth_time = '';
+            this.code = false;
+            clearInterval(auth_timetimer);
+          }
+        }, 1000);
+      },
       getAuto() {
         this.auth = storage.getJson('auth')
-        console.log(this.auth)
+        //console.log(this.auth)
         for (var i = 0; i < this.auth.length; i++) {
           if (this.auth[i] == 1) {
             this.userS = true
@@ -233,10 +223,9 @@
           type: 'warning'
         }).then(() => {
           storage.delete('Authorization');
-          storage.delete('userName');
           storage.delete('auth');
           storage.delete('token');
-          storage.delete('sysid');
+          storage.delete('user');
           this.$message({
             type: 'success',
             message: '您已成功退出!'
@@ -258,10 +247,9 @@
           message: '登录失效，请重新登录!'
         });
         storage.delete('Authorization');
-        storage.delete('userName');
         storage.delete('auth');
         storage.delete('token');
-        storage.delete('sysid');
+        storage.delete('user');
         this.$router.push({name: 'login'})
       }
     },

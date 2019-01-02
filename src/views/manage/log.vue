@@ -140,7 +140,7 @@
         params['page'] = this.currentPage;
         params['count'] = this.pageSize;
         API.get('/journal/findAll', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             var obj = res.data.data;
@@ -167,10 +167,10 @@
         params['startTime'] = this.search.dateStart;
         params['endTime'] = this.search.dateEnd;
         params['abnormal'] = this.search.normal;
-        console.log(params)
+        // console.log(params)
 
         API.get('/journal/findByCondition', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             var obj = res.data.data;
@@ -187,12 +187,12 @@
       },
       // 翻页器
       handleSizeChange(val) {
-        console.log(val);
+        // console.log(val);
         this.pageSize = val;
         this.getPage();
       },
       handleCurrentChange(val) {
-        console.log(val);
+        // console.log(val);
         this.currentPage = val;
         this.getPage()
       },
@@ -202,10 +202,9 @@
           message: '登录失效，请重新登录!'
         });
         storage.delete('Authorization');
-        storage.delete('userName');
         storage.delete('auth');
         storage.delete('token');
-        storage.delete('sysid');
+        storage.delete('user');
         this.$router.push({name:'login'})
       }
     },
@@ -282,6 +281,7 @@
       overflow: hidden;
       box-sizing: border-box;
       border: 1px solid #ccc;
+      margin-top: 20px;
       .content {
         padding: 20px 10px;
         box-sizing: border-box;
@@ -295,7 +295,7 @@
       }
       .title {
         height: 40px;
-        background: #409EFF;
+        background: #026ab3;
         text-align: center;
         line-height: 40px;
         color: #fff;

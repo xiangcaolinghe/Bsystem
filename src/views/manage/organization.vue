@@ -111,7 +111,7 @@
             <el-input v-model="addObject.mAddress"></el-input>
           </el-form-item>
           <el-form-item label="电话" prop="mPhone">
-            <el-input v-model.number="addObject.mPhone"></el-input>
+            <el-input v-model="addObject.mPhone"></el-input>
           </el-form-item>
           <el-form-item label="传真">
             <el-input v-model="addObject.mFax"></el-input>
@@ -165,7 +165,7 @@
             <el-input v-model="editObject.mAddress"></el-input>
           </el-form-item>
           <el-form-item label="电话" prop="mPhone">
-            <el-input v-model.number="editObject.mPhone"></el-input>
+            <el-input v-model="editObject.mPhone"></el-input>
           </el-form-item>
           <el-form-item label="传真">
             <el-input v-model="editObject.mFax"></el-input>
@@ -195,7 +195,6 @@
           class="filter-tree"
           :data="listOrg"
           :props="defaultProps"
-          default-expand-all
           :filter-node-method="filterNode"
           ref="filterTree"
           :default-expand-all="true"
@@ -252,8 +251,7 @@
         },
         rules: {
           mPhone:[
-            { required: true, message: '必填'},
-            { type: 'number', message: '必须为数字值'}
+            { required: true, message: '必填'}
             ]
         }
 
@@ -264,11 +262,11 @@
       getTree(){
         let params = {};
         API.get('/mechanism/findTreeAll', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           if (res.data.code == 200) {
             var arr = res.data.data;
             this.listOrg = this.getOrg(arr)
-            console.log(this.listOrg)
+            // console.log(this.listOrg)
           }else if(res.data.code == 1001){
             this.signOut()
           }else if(res.data.code == 401){
@@ -278,7 +276,7 @@
       },
       // 树选择机构
       chooseNodeClick(data) {
-        console.log(data)
+        // console.log(data)
         this.OrgName = data.label;
         this.OrgId = data.id;
         this.choosePop = false;
@@ -288,7 +286,7 @@
         let params = {};
         params['id'] = id;
         API.get('/mechanism/findById', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data;
@@ -309,7 +307,7 @@
         params['page'] = this.currentPage;
         params['count'] = this.pageSize;
         API.get('/mechanism/findAll', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           if (res.data.code == 200) {
             this.total = res.data.count;
             this.tableData = res.data.data;
@@ -366,9 +364,8 @@
             params['mEmail'] = this.addObject.mEmail;
             params['mContent'] = this.addObject.mContent;
 
-            console.log(params)
-
-            /*API.post('/mechanism/create', params,{Authorization:storage.get('token')}).then((res) => {
+            // console.log(params)
+            API.post('/mechanism/create', params,{Authorization:storage.get('token')}).then((res) => {
               if (res.data.code == 200) {
                 this.addPop = false;
                 this.getPage();
@@ -386,7 +383,7 @@
                   message: '新增失败!'
                 });
               }
-            })*/
+            })
           }
         })
       },
@@ -412,10 +409,10 @@
         let params = {};
         params['id'] = id;
         API.get('/mechanism/findOneById', params,{Authorization:storage.get('token')}).then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           if (res.data.code == 200) {
             this.editObject = res.data.data[0];
-            console.log(this.editObject)
+            // console.log(this.editObject)
             var obj = res.data.data[0];
 
             // 机构显示名称
@@ -444,10 +441,10 @@
             params['mEmail'] = this.editObject.mEmail;
             params['mContent'] = this.editObject.mContent;
 
-            console.log(params)
+            //console.log(params)
 
             API.put('/mechanism/update', params,{Authorization:storage.get('token')}).then((res) => {
-              console.log(res.data)
+              //console.log(res.data)
               if (res.data.code == 200) {
                 this.editPop = false;
                 this.getPage();
@@ -501,12 +498,12 @@
 
       // 翻页器
       handleSizeChange(val) {
-        console.log(val);
+        //console.log(val);
         this.pageSize = val;
         this.getPage();
       },
       handleCurrentChange(val) {
-        console.log(val);
+        //console.log(val);
         this.currentPage = val;
         this.getPage()
       },
@@ -526,10 +523,9 @@
           message: '登录失效，请重新登录!'
         });
         storage.delete('Authorization');
-        storage.delete('userName');
         storage.delete('auth');
         storage.delete('token');
-        storage.delete('sysid');
+        storage.delete('user');
         this.$router.push({name:'login'})
       }
     },
@@ -605,6 +601,7 @@
     min-height: 800px;
     background: #fff;
     width: 100%;
+    overflow: hidden;
     .cell {
       float: left;
       min-height: 800px;
@@ -632,18 +629,18 @@
       }
       .title {
         height: 40px;
-        background: #409EFF;
+        background: #026ab3;
         text-align: center;
         line-height: 40px;
         color: #fff;
       }
       &.left {
         width: 18%;
-        margin: 0 1%;
+        margin: 20px 1%;
       }
       &.right {
         width: 79%;
-        margin: 0 1% 0 0;
+        margin: 20px 1% 0 0;
       }
     }
   }

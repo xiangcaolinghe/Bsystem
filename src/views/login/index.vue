@@ -48,20 +48,18 @@
           let params = {};
           params['uName'] = this.userNum;
           params['uPasswd'] = this.userPassword;
-          console.log(params)
+          //console.log(params)
           API.post('/user/login', params).then((res) => {
-            console.log(res.data)
-            console.log(111)
+            //console.log(res.data)
             if (res.data.code == 200) {
               this.$message({
                 type: 'success',
                 message: '登录成功!'
               });
-              console.log(res.data.data.token)
-              storage.set('userName', res.data.data.uName);
+              //console.log(res.data.data.token)
               storage.set('Authorization', res.data.data.token);
               storage.set('token', res.data.data.token);
-              storage.set('sysid', res.data.data.id);
+              storage.setJson('user', res.data.data.user);
               storage.setJson('auth', res.data.data.diction);
               this.$router.push({name: 'home'})
             } else {
