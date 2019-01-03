@@ -384,7 +384,7 @@ export default {
       params["roleName"] = this.addObject.roleName;
       params["menus"] = this.menus.join(",");
       params["desc"] = this.addObject.desc;
-      //console.log(params)
+      console.log(params)
       API.post("/role/addRole", params, {
         Authorization: storage.get("token")
       }).then(res => {
@@ -410,7 +410,7 @@ export default {
     },
     // 角色选择
     handleCheckChange(data, checked, indeterminate) {
-      this.menus = this.$refs.Tree.getCheckedKeys(true);
+      this.menus = this.$refs.Tree.getCheckedKeys(false);
     },
     // 编辑
     editOpen(id) {
@@ -419,7 +419,7 @@ export default {
         roleName: "",
         desc: ""
       };
-      this.menus = "";
+      // this.menus = "";
       this.mechanismId = "";
       let params = {};
       params["id"] = id;
@@ -453,9 +453,10 @@ export default {
       params["id"] = this.editObject.id;
       params["mechanismId"] = this.mechanismId;
       params["roleName"] = this.editObject.roleName;
+      console.log(this.menus)
       params["menus"] = this.menus.join(",");
       params["desc"] = this.editObject.desc;
-      //console.log(params)
+      console.log(params)
       API.post("/role/updateRole", params, {
         Authorization: storage.get("token")
       }).then(res => {

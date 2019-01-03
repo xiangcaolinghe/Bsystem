@@ -208,10 +208,10 @@
           :expand-on-click-node="false">
         </el-tree>
       </div>
-      <div class="pop-btn">
+      <!--<div class="pop-btn">
         <el-button type="success" @click="confirmChooseBranch">确定</el-button>
         <el-button type="info" @click="chooseBranchPop = false">取消</el-button>
-      </div>
+      </div>-->
     </el-dialog>
   </div>
 </template>
@@ -450,15 +450,20 @@
         //console.log(data)
         this.middleChooseBranch = data.label
         this.middleChooseId = data.id
-      },
-      // 保存上级菜单
-      confirmChooseBranch() {
         this.addObject.pId = this.middleChooseId;
         this.editObject.pId = this.middleChooseId;
         this.addObject.branch = this.middleChooseBranch;
         this.editObject.branch = this.middleChooseBranch;
         this.chooseBranchPop = false
       },
+      // 保存上级菜单
+      /*confirmChooseBranch() {
+        this.addObject.pId = this.middleChooseId;
+        this.editObject.pId = this.middleChooseId;
+        this.addObject.branch = this.middleChooseBranch;
+        this.editObject.branch = this.middleChooseBranch;
+        this.chooseBranchPop = false
+      },*/
       // 菜单过滤
       filterNode(value, data) {
         if (!value) return true;

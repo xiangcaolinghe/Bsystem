@@ -329,6 +329,7 @@
 </template>
 
 <script>
+  import md5 from 'js-md5';
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
@@ -643,7 +644,7 @@ export default {
           params['uDepartment'] = this.udepartmentId;
           params['uUsername'] = this.addObject.uusername;
           params['uName'] = this.addObject.uname;
-          params['uPasswd'] = this.addObject.upasswd;
+          params['uPasswd'] = md5(this.addObject.uname + this.addObject.upasswd);
           // params['confirmPas'] = this.addObject.confirmPas;
           params['uEmail'] = this.addObject.uemail;
           params['uTelephone'] = this.addObject.utelephone;
@@ -651,7 +652,7 @@ export default {
           params['uRole'] = this.addObject.urole;
           params['uContent'] = this.addObject.ucontent;
 
-          //console.log(params)
+          console.log(params)
           API.post('/user/create', params, { Authorization: storage.get('token') }).then((res) => {
             console.log(res.data)
             if (res.data.code == 200) {
@@ -764,15 +765,17 @@ export default {
           params['uDepartment'] = this.udepartmentId;
           params['uUsername'] = this.editObject.uusername;
           params['uName'] = this.editObject.uname;
-          params['uPasswd'] = this.editObject.ResetPasswd;
-          // params['confirmPas'] = this.editObject.confirmPas;
+          if(this.editObject.ResetPasswd){
+            params['uPasswd'] = md5(this.editObject.uname+this.editObject.ResetPasswd);
+          }else {
+            params['uPasswd'] = this.editObject.ResetPasswd;
+          }
           params['uEmail'] = this.editObject.uemail;
           params['uTelephone'] = this.editObject.utelephone;
           params['uMobilephone'] = this.editObject.umobilephone;
           params['uRole'] = this.editObject.urole;
           params['uContent'] = this.editObject.ucontent;
-
-          //console.log(params)
+          console.log(params)
           API.post('/user/update', params, { Authorization: storage.get('token') }).then((res) => {
             //console.log(res.data)
             if (res.data.code == 200) {

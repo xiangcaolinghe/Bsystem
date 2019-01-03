@@ -47,8 +47,8 @@
         } else {
           let params = {};
           params['uName'] = this.userNum;
-          params['uPasswd'] = this.userPassword;
-          //console.log(params)
+          params['uPasswd'] =this.userPassword;
+          console.log(params)
           API.post('/user/login', params).then((res) => {
             //console.log(res.data)
             if (res.data.code == 200) {

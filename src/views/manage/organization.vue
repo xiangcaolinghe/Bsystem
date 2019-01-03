@@ -333,6 +333,11 @@
 
       // 新增
       addOrg() {
+        if(this.$refs.addObject){
+          this.$refs.addObject.clearValidate();
+        }else{
+          return
+        }
         this.addPop = true;
         this.getTree();
         this.addObject = {
@@ -489,7 +494,7 @@
             }else {
               this.$message({
                 type: 'error',
-                message: '删除失败!'
+                message: '删除失败!'+ res.data.message
               });
             }
           })
